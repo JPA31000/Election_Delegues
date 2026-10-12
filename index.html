@@ -1,0 +1,1213 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light dark">
+<title>Élection des délégués</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231f3a8a'/%3E%3Cpath d='M8 14h16v10H8z' fill='%23fff'/%3E%3Cpath d='M12 6h8v10h-8z' fill='%23fbf0d9' stroke='%23b3261e' stroke-width='1.5'/%3E%3Crect x='9' y='17' width='14' height='2' fill='%231f3a8a'/%3E%3C/svg%3E">
+<style>
+:root{
+  --fond:#f6f2ea; --carte:#fffdf8; --encre:#18233f; --doux:#5b6478; --trait:#e1d9c8; --creux:#f0ebdf;
+  --bleu:#1f3a8a; --bleu-c:#e8edfb; --rouge:#b3261e; --rouge-c:#fbe9e7; --vert:#1f7a4d; --vert-c:#e3f4ea; --or:#8a5a00; --or-c:#fbf0d9;
+  --ombre:0 1px 2px rgba(24,35,63,.06),0 4px 14px rgba(24,35,63,.06);
+  --serif:Georgia,"Iowan Old Style","Palatino Linotype",serif; --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root{
+  --fond:#0f1424; --carte:#171e33; --encre:#eef0f7; --doux:#a0a9c0; --trait:#2a3350; --creux:#1d2540;
+  --bleu:#9bb0ff; --bleu-c:#1d2750; --rouge:#ff8a80; --rouge-c:#3a1d22; --vert:#6fd6a2; --vert-c:#14301f; --or:#f0c36d; --or-c:#33280f;
+  --ombre:0 1px 2px rgba(0,0,0,.3),0 4px 14px rgba(0,0,0,.25);}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--fond);color:var(--encre);font:16px/1.55 var(--sans)}
+body::before{content:"";display:block;height:6px;background:linear-gradient(90deg,#1f3a8a 0 33.3%,#fff 33.3% 66.6%,#b3261e 66.6%)}
+h1,h2,h3{font-family:var(--serif);line-height:1.2;margin:0 0 .5em}
+h1{font-size:clamp(1.7rem,4.5vw,2.6rem)} h2{font-size:1.45rem} h3{font-size:1.1rem}
+p{margin:0 0 .8em} a{color:var(--bleu)}
+.cadre{max-width:1000px;margin:0 auto;padding:0 16px}
+.entete{background:var(--carte);border-bottom:1px solid var(--trait)}
+.entete .cadre{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:10px;padding-bottom:10px;flex-wrap:wrap}
+.marque{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.marque svg{width:34px;height:34px;flex:none}
+.marque b{font-family:var(--serif);font-size:1.05rem;display:block;line-height:1.2}
+.marque small{color:var(--doux);font-size:.8rem}
+.entete nav{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.entete nav a,.lien{color:var(--encre);text-decoration:none;padding:6px 10px;border-radius:8px;font-size:.92rem;background:none;border:0;cursor:pointer;font-family:inherit}
+.entete nav a:hover,.lien:hover{background:var(--creux)}
+main{padding-top:22px;padding-bottom:50px;min-height:60vh}
+footer{border-top:1px solid var(--trait);color:var(--doux);font-size:.85rem;padding:18px 0 30px}
+footer .cadre{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.carte{background:var(--carte);border:1px solid var(--trait);border-radius:14px;padding:20px;box-shadow:var(--ombre);margin-bottom:18px}
+.carte>h2:first-child,.carte>h3:first-child{margin-top:0}
+.kicker{text-transform:uppercase;letter-spacing:.09em;font-size:.76rem;color:var(--doux);margin-bottom:6px;font-weight:600}
+.chapo{font-size:1.1rem;color:var(--doux);max-width:60ch}
+.hero{padding:10px 0 18px}
+.pastille{display:inline-flex;align-items:center;gap:7px;padding:4px 12px;border-radius:99px;font-size:.85rem;font-weight:600;background:var(--creux);border:1px solid var(--trait)}
+.pastille::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--doux)}
+.pastille.candidatures{background:var(--bleu-c);color:var(--bleu)} .pastille.candidatures::before{background:var(--bleu)}
+.pastille.vote{background:var(--vert-c);color:var(--vert)} .pastille.vote::before{background:var(--vert);animation:pouls 1.6s infinite}
+.pastille.attente{background:var(--or-c);color:var(--or)} .pastille.attente::before{background:var(--or)}
+.pastille.clos{background:var(--rouge-c);color:var(--rouge)} .pastille.clos::before{background:var(--rouge)}
+@keyframes pouls{50%{opacity:.3}}
+.grille{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr))}
+.grille.deux{grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))}
+.principe{border-left:4px solid var(--bleu);padding:2px 0 2px 14px}
+.principe:nth-child(3n+2){border-color:var(--rouge)} .principe:nth-child(3n){border-color:var(--or)}
+.principe h3{font-size:1.02rem;margin-bottom:.25em} .principe p{margin:0;color:var(--doux);font-size:.95rem}
+ul.puces{margin:.3em 0 .8em;padding-left:1.15em} ul.puces li{margin:.25em 0}
+.cols h3{display:flex;align-items:center;gap:8px}
+.badge{display:inline-block;padding:1px 9px;border-radius:99px;font-size:.78rem;font-weight:600;background:var(--creux);border:1px solid var(--trait);white-space:nowrap}
+.badge.bleu{background:var(--bleu-c);color:var(--bleu);border-color:transparent} .badge.vert{background:var(--vert-c);color:var(--vert);border-color:transparent}
+.badge.rouge{background:var(--rouge-c);color:var(--rouge);border-color:transparent} .badge.or{background:var(--or-c);color:var(--or);border-color:transparent}
+.etapes{list-style:none;margin:0;padding:0;display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr))}
+.etapes li{padding:12px 14px;border:1px solid var(--trait);border-radius:12px;background:var(--creux);position:relative}
+.etapes li.cour{background:var(--bleu-c);border-color:var(--bleu)} .etapes li b{display:block;font-family:var(--serif)}
+.etapes li small{color:var(--doux)}
+label.champ{display:block;font-weight:600;font-size:.9rem;margin-bottom:12px}
+input[type=text],input[type=password],input[type=datetime-local],input[type=number],select,textarea{width:100%;font:inherit;color:inherit;background:var(--carte);border:1.5px solid var(--trait);border-radius:10px;padding:10px 12px;margin-top:4px}
+textarea{resize:vertical;min-height:90px}
+input:focus,select:focus,textarea:focus,button:focus-visible,summary:focus-visible{outline:3px solid var(--bleu);outline-offset:1px;border-color:var(--bleu)}
+.code-saisie{font:600 1.6rem/1 ui-monospace,Consolas,monospace;letter-spacing:.18em;text-transform:uppercase;text-align:center}
+.bouton{font:600 1rem var(--sans);cursor:pointer;border:0;border-radius:10px;padding:11px 20px;background:var(--bleu);color:#fff;transition:transform .05s}
+@media (prefers-color-scheme:dark){.bouton{color:#0f1424}}
+.bouton:hover{filter:brightness(1.08)} .bouton:active{transform:translateY(1px)}
+.bouton.sec{background:var(--creux);color:var(--encre);border:1px solid var(--trait)}
+.bouton.danger{background:var(--rouge);color:#fff}
+@media (prefers-color-scheme:dark){.bouton.danger{color:#0f1424}}
+.bouton.petit{padding:6px 12px;font-size:.88rem}
+.bouton[disabled]{opacity:.45;cursor:not-allowed}
+.rangee{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.flash{padding:12px 16px;border-radius:10px;margin-bottom:16px;font-weight:600}
+.flash.ok{background:var(--vert-c);color:var(--vert)} .flash.err{background:var(--rouge-c);color:var(--rouge)} .flash.info{background:var(--bleu-c);color:var(--bleu)}
+.note{background:var(--or-c);color:var(--or);border-radius:10px;padding:10px 14px;font-size:.92rem;margin:10px 0}
+.aide{color:var(--doux);font-size:.9rem}
+.secret{display:flex;gap:10px;align-items:flex-start;background:var(--vert-c);color:var(--vert);padding:10px 14px;border-radius:10px;font-size:.92rem;margin:12px 0}
+/* candidats et bulletin */
+.cand{border:1px solid var(--trait);border-radius:12px;padding:12px 14px;background:var(--creux)}
+.cand b{font-family:var(--serif)} .cand p{margin:.35em 0 0;font-size:.93rem;color:var(--doux)}
+fieldset.rub{border:1px solid var(--trait);border-radius:12px;padding:6px 14px 14px;margin:0 0 16px}
+fieldset.rub legend{font-family:var(--serif);font-weight:700;font-size:1.1rem;padding:0 8px}
+.choix{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;align-items:start;padding:11px 12px;margin-top:8px;border:1.5px solid var(--trait);border-radius:12px;cursor:pointer;background:var(--carte)}
+.choix input{width:22px;height:22px;margin:2px 0 0;accent-color:var(--bleu)}
+.choix .nom{font-weight:600} .choix .grp{margin-left:8px} .choix .txt{grid-column:2;font-size:.9rem;color:var(--doux)}
+.choix.sel{border-color:var(--bleu);background:var(--bleu-c)}
+.choix.dis{opacity:.45;cursor:not-allowed}
+.resume li{margin:.3em 0}
+/* tableaux & barres */
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--trait);vertical-align:top}
+th{font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--doux)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+tr.elu td{background:var(--vert-c)} tr.elu td:first-child{font-weight:700}
+.tableau{overflow-x:auto}
+.barre{height:10px;border-radius:99px;background:var(--creux);overflow:hidden;border:1px solid var(--trait);min-width:80px}
+.barre i{display:block;height:100%;background:var(--bleu)}
+.barre.vert i{background:var(--vert)}
+.onglets{display:flex;gap:4px;overflow-x:auto;border-bottom:2px solid var(--trait);margin-bottom:20px}
+.onglets button{font:600 .95rem var(--sans);background:none;border:0;padding:10px 14px;cursor:pointer;color:var(--doux);border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap}
+.onglets button[aria-selected=true]{color:var(--bleu);border-bottom-color:var(--bleu)}
+.puce-eleve{display:inline-block;margin:3px 4px 3px 0;padding:3px 10px;border-radius:99px;font-size:.88rem;border:1px solid var(--trait);background:var(--creux)}
+.puce-eleve.a-vote{background:var(--vert-c);color:var(--vert);border-color:transparent}
+.puce-eleve.a-vote::before{content:"✔ "}
+.chiffre{font:700 2.4rem/1 var(--serif)}
+.statistiques{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.statistiques>div{background:var(--creux);border-radius:12px;padding:14px}
+.statistiques small{color:var(--doux);display:block}
+.ed-classe{border:1px solid var(--trait);border-radius:12px;padding:14px;margin-bottom:14px;background:var(--carte)}
+.ed-classe textarea{min-height:170px;font:.9rem/1.45 ui-monospace,Consolas,monospace}
+details.plie{border:1px solid var(--trait);border-radius:12px;padding:10px 14px;margin:12px 0}
+details.plie summary{cursor:pointer;font-weight:600}
+dialog{border:1px solid var(--trait);border-radius:14px;background:var(--carte);color:var(--encre);padding:22px;max-width:min(680px,94vw);width:100%;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+dialog::backdrop{background:rgba(10,14,28,.62)}
+.occupe{cursor:progress} .occupe::after{content:"";position:fixed;top:6px;left:0;height:3px;width:100%;background:var(--bleu);animation:charge 1s infinite;z-index:99}
+@keyframes charge{0%{transform:scaleX(0);transform-origin:left}50%{transform:scaleX(1);transform-origin:left}51%{transform-origin:right}100%{transform:scaleX(0);transform-origin:right}}
+.demo{background:var(--or-c);color:var(--or);text-align:center;font-size:.88rem;padding:6px 12px}
+.sr{position:absolute;left:-9999px}
+#impr{display:none}
+.carte-code{border:1.5px dashed #888;border-radius:8px;padding:10px 12px;break-inside:avoid;font-size:.85rem;color:#000;background:#fff}
+.carte-code .code{font:700 1.5rem ui-monospace,Consolas,monospace;letter-spacing:.14em;margin:6px 0}
+@media print{
+  body::before,.entete,footer,.demo,.noprint,.onglets,dialog{display:none!important}
+  body{background:#fff;color:#000;font-size:11pt} .carte{box-shadow:none;border-color:#999;break-inside:avoid}
+  body[data-impr=codes] main{display:none} body[data-impr=codes] #impr{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  body[data-impr=codes] #impr h2{grid-column:1/-1;margin:14px 0 4px;break-after:avoid}
+  .tableau{overflow:visible}
+}
+@media (max-width:560px){main{padding-top:14px} .carte{padding:15px} .code-saisie{font-size:1.3rem}}
+</style>
+</head>
+<body>
+<div id="bandeauDemo"></div>
+<header class="entete"><div class="cadre">
+  <a class="marque" href="#" data-act="accueil" aria-label="Accueil">
+    <svg viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="8" fill="#1f3a8a"/><path d="M8 16h18v11H8z" fill="#fff"/><rect x="10" y="19" width="14" height="2.4" rx="1.2" fill="#1f3a8a"/><path d="M13 6.5h8v11h-8z" fill="#fbf0d9" stroke="#b3261e" stroke-width="1.6"/></svg>
+    <span><b id="titreSite">Élection des délégués</b><small id="sousTitre"></small></span></a>
+  <nav id="nav"></nav>
+</div></header>
+<main class="cadre" id="app" aria-live="polite"></main>
+<footer><div class="cadre"><span>Aucun nom d’élève n’est publié sur ce site : la liste reste dans le classeur privé de l’enseignant.</span><button class="lien" data-act="profEntree">Espace enseignant</button></div></footer>
+<div id="impr"></div>
+
+<script>
+/* =================== À RENSEIGNER APRÈS LE DÉPLOIEMENT DU SCRIPT GOOGLE =================== */
+const URL_SCRIPT = '';     // ex. 'https://script.google.com/macros/s/AKfycbyuPAR0yGcAmja1m7B-FpVsjHTzjG-vdXcANp1I74fvab3rOZfMF_jCOEiHeSk46SbV/exec'  — vide = mode démonstration (dans ce navigateur seulement)
+/* ========================================================================================== */
+const DEMO = !URL_SCRIPT;
+
+/* =====================================================================
+   MOTEUR DE L'ÉLECTION
+   Même code pour le serveur Google (Code.gs) et le mode démonstration
+   du navigateur. Il ne connaît le stockage que par l'objet « env ».
+   ===================================================================== */
+function creerMoteur(env) {
+  const ALPHA = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';   // 31 signes, sans I L O 0 1
+  const B = ALPHA.length;
+  const MUTANTES = { candidater: 1, retirer: 1, voter: 1, a_classes: 1, a_reglages: 1, a_forcer: 1, a_candidat: 1, a_tour: 1, a_reinit: 1 };
+
+  const ERR = m => { const e = new Error(m); e.metier = true; return e; };
+  const maintenant = () => env.maintenant();
+  const propre = s => String(s == null ? '' : s).replace(/\s+/g, ' ').trim();
+  const cle = s => propre(s).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const unique = a => Array.from(new Set((Array.isArray(a) ? a : []).map(String)));
+  const melanger = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(env.hasard() * (i + 1)); const t = a[i]; a[i] = a[j]; a[j] = t; } return a; };
+
+  /* ---------- configuration ---------- */
+  function cfgDefaut() {
+    const d = new Date(maintenant()), y = d.getFullYear();
+    return { titre: 'Élection des délégués de classe', etab: '', annee: d.getMonth() >= 7 ? y + '-' + (y + 1) : (y - 1) + '-' + y,
+      dates: {}, forcer: null, tour: 1, tours: [{ n: 1, D: null, A: null }], adjDiff: false, cids: [], cseq: 0, eseq: 0 };
+  }
+  function cfg() { let c = env.lire('cfg'); if (!c) { c = cfgDefaut(); env.ecrire('cfg', c); } return c; }
+  const sauverCfg = c => env.ecrire('cfg', c);
+  const lireClasse = cid => env.lire('c' + cid);
+  const sauverClasse = cl => env.ecrire('c' + cl.cid, cl);
+  const toutesClasses = c => c.cids.map(x => lireClasse(x.cid)).filter(Boolean);
+  const aDesVotes = c => toutesClasses(c).some(cl => Object.keys(cl.emarge || {}).some(k => cl.emarge[k].length));
+
+  function etatDe(c, t) {
+    if (c.forcer) return c.forcer;
+    const d = c.dates || {};
+    if (!d.debutCand || t < d.debutCand) return 'preparation';
+    if (d.debutVote && t >= d.debutVote) return (d.finVote && t >= d.finVote) ? 'clos' : 'vote';
+    if (!d.finCand || t < d.finCand) return 'candidatures';
+    return 'attente';
+  }
+
+  /* ---------- codes personnels : 2 signes de classe + 6 au hasard ---------- */
+  const enc = cid => ALPHA[Math.floor(cid / B)] + ALPHA[cid % B];
+  function nouveauCode(cid, deja) {
+    let code;
+    do { code = enc(cid); for (let i = 0; i < 6; i++) code += ALPHA[Math.floor(env.hasard() * B)]; } while (deja.has(code));
+    return code;
+  }
+  function trouver(codeBrut) {
+    const code = String(codeBrut || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+    let r = null;
+    if (code.length === 8) {
+      const a = ALPHA.indexOf(code[0]), b = ALPHA.indexOf(code[1]);
+      if (a >= 0 && b >= 0) {
+        const cl = lireClasse(a * B + b);
+        const el = cl && cl.eleves.find(e => e.code === code);
+        if (el) r = { cl, el };
+      }
+    }
+    if (!r) { env.pause(900); throw ERR('Code inconnu. Recopie les 8 signes de ta fiche (lettres et chiffres).'); }
+    return r;
+  }
+
+  /* ---------- listes de candidats ---------- */
+  function liste(cl, tr, sec) {                       // null = rubrique non votée à ce tour
+    const r = tr[sec];
+    if (Array.isArray(r) && !r.length) return null;
+    return Object.keys(cl.cand).filter(id => cl.cand[id].roles.indexOf(sec) >= 0 && (!r || r.indexOf(id) >= 0));
+  }
+  const ouverte = l => !!(l && l.length);
+  const eleveDe = (cl, id) => cl.eleves.find(e => e.id === id);
+  const candidatsVue = cl => cl.eleves.filter(e => cl.cand[e.id]).map(e => ({ id: e.id, nom: e.nom, groupe: cl.groupes[e.g], roles: cl.cand[e.id].roles, texte: cl.cand[e.id].texte }))
+    .sort((a, b) => a.nom.localeCompare(b.nom, 'fr'));
+
+  function vueEleve(c, cl, el) {
+    const t = maintenant(), etat = etatDe(c, t), tr = c.tours[c.tour - 1];
+    const aVote = ((cl.emarge || {})[c.tour] || []).indexOf(el.id) >= 0;
+    const v = { ok: true, eleve: { nom: el.nom, classe: cl.nom, groupe: cl.groupes[el.g] }, groupes: cl.groupes, etat, titre: c.titre, etab: c.etab, annee: c.annee, dates: c.dates,
+      tour: c.tour, adjDiff: c.adjDiff, maintenant: t, candidats: candidatsVue(cl), moi: cl.cand[el.id] || null, aVote };
+    if (etat === 'vote' && !aVote) {
+      v.sections = {};
+      ['D', 'A'].forEach(sec => {
+        const l = liste(cl, tr, sec);
+        v.sections[sec] = l && l.map(id => { const e = eleveDe(cl, id); return { id, nom: e.nom, groupe: cl.groupes[e.g], g: e.g, texte: cl.cand[id].texte }; });
+      });
+      v.scrutin = ouverte(v.sections.D) || ouverte(v.sections.A);
+    }
+    return v;
+  }
+
+  /* ---------- attribution des sièges ---------- */
+  // pool : candidats triés par voix décroissantes ; diff : les 2 élus de groupes différents
+  function choisir(pool, diff) {
+    const res = { elus: [], egalite: null };
+    let reste = pool.filter(x => x.v > 0);
+    while (res.elus.length < 2 && reste.length) {
+      let eligibles = reste;
+      if (diff && res.elus.length === 1) { const g0 = pool.find(x => x.id === res.elus[0]).g; eligibles = reste.filter(x => x.g !== g0); }
+      if (!eligibles.length) break;
+      const max = eligibles[0].v, G = eligibles.filter(x => x.v === max), restants = 2 - res.elus.length;
+      const compatible = diff ? (G.length === 1 || (res.elus.length === 0 && G.length === 2 && G[0].g !== G[1].g)) : G.length <= restants;
+      if (compatible) { G.forEach(x => res.elus.push(x.id)); reste = reste.filter(x => G.indexOf(x) < 0); }
+      else { res.egalite = { places: diff && res.elus.length === 0 ? 1 : restants, candidats: G.map(x => x.id) }; break; }
+    }
+    return res;
+  }
+
+  function calculer(cl, c, n) {
+    const tr = c.tours[n - 1];
+    const urne = env.lireUrne('u' + n + '_' + cl.cid) || [];
+    const em = ((cl.emarge || {})[n] || []).length;
+    const R = { cid: cl.cid, nom: cl.nom, inscrits: cl.eleves.length, emarges: em, bulletins: urne.length, coherent: urne.length === em, scrutin: false, D: null, A: null };
+    let elusD = [];
+    ['D', 'A'].forEach(sec => {
+      const ids = liste(cl, tr, sec);
+      if (!ouverte(ids)) return;
+      R.scrutin = true;
+      const k = sec.toLowerCase(), compte = {}; let blancs = 0;
+      ids.forEach(id => compte[id] = 0);
+      urne.forEach(b => { const l = b[k] || []; if (!l.length) blancs++; l.forEach(id => { if (id in compte) compte[id]++; }); });
+      const cands = ids.map(id => { const e = eleveDe(cl, id); return { id, nom: e.nom, groupe: cl.groupes[e.g], g: e.g, v: compte[id], pct: urne.length ? compte[id] / urne.length : 0, elu: false, deja: false }; });
+      cands.sort((a, b) => b.v - a.v || a.nom.localeCompare(b.nom, 'fr'));
+      if (sec === 'A') cands.forEach(x => { x.deja = elusD.indexOf(x.id) >= 0; });
+      const pool = sec === 'A' ? cands.filter(x => !x.deja) : cands;
+      const sel = choisir(pool, sec === 'D' || c.adjDiff);
+      cands.forEach(x => { x.elu = sel.elus.indexOf(x.id) >= 0; });
+      if (sec === 'D') elusD = sel.elus;
+      R[sec] = { candidats: cands, blancs, elus: sel.elus,
+        egalite: sel.egalite ? { places: sel.egalite.places, candidats: sel.egalite.candidats.map(id => cands.find(x => x.id === id)) } : null,
+        provisoire: sec === 'A' && !!(R.D && R.D.egalite) };
+    });
+    return R;
+  }
+
+  /* ---------- validations ---------- */
+  function validerRoles(r) {
+    const s = String(r || '');
+    const out = (s.indexOf('D') >= 0 ? 'D' : '') + (s.indexOf('A') >= 0 ? 'A' : '');
+    if (!out) throw ERR('Choisis au moins un rôle : délégué ou adjoint.');
+    return out;
+  }
+  function validerTexte(t) {
+    const s = propre(t);
+    if (s.length > 300) throw ERR('Ton texte dépasse 300 caractères.');
+    return s;
+  }
+  function verifierMdp(req) {
+    if (!env.mdp || env.mdp === 'changez-moi') throw ERR('Le script n’est pas configuré : changez MOT_DE_PASSE au début de Code.gs, puis redéployez.');
+    if (!req.mdp || String(req.mdp) !== String(env.mdp)) { env.pause(1500); throw ERR('Mot de passe incorrect.'); }
+  }
+
+  /* ---------- actions publiques ---------- */
+  const ACTIONS = {};
+  ACTIONS.info = () => {
+    const c = cfg(), t = maintenant();
+    return { ok: true, etat: etatDe(c, t), titre: c.titre, etab: c.etab, annee: c.annee, dates: c.dates, tour: c.tour, maintenant: t };
+  };
+  ACTIONS.connexion = req => { const c = cfg(), r = trouver(req.code); return vueEleve(c, r.cl, r.el); };
+  ACTIONS.candidater = req => {
+    const c = cfg();
+    if (etatDe(c, maintenant()) !== 'candidatures') throw ERR('Les candidatures ne sont pas ouvertes.');
+    const r = trouver(req.code);
+    r.cl.cand[r.el.id] = { roles: validerRoles(req.roles), texte: validerTexte(req.texte) };
+    sauverClasse(r.cl);
+    return vueEleve(c, r.cl, r.el);
+  };
+  ACTIONS.retirer = req => {
+    const c = cfg();
+    if (etatDe(c, maintenant()) !== 'candidatures') throw ERR('Les candidatures ne sont plus modifiables.');
+    const r = trouver(req.code);
+    delete r.cl.cand[r.el.id];
+    sauverClasse(r.cl);
+    return vueEleve(c, r.cl, r.el);
+  };
+  ACTIONS.voter = req => {
+    const c = cfg();
+    if (etatDe(c, maintenant()) !== 'vote') throw ERR('Le vote n’est pas ouvert.');
+    const r = trouver(req.code), cl = r.cl, el = r.el, n = c.tour, tr = c.tours[n - 1];
+    cl.emarge = cl.emarge || {};
+    const dejaEm = cl.emarge[n] || [];
+    if (dejaEm.indexOf(el.id) >= 0) throw ERR('Tu as déjà voté : un seul bulletin par élève.');
+    const LD = liste(cl, tr, 'D'), LA = liste(cl, tr, 'A');
+    if (!ouverte(LD) && !ouverte(LA)) throw ERR('Il n’y a pas de vote pour ta classe à ce tour.');
+    const d = unique(req.delegues), a = unique(req.adjoints);
+    if (d.length && !ouverte(LD)) throw ERR('Pas de vote pour les délégués à ce tour.');
+    if (a.length && !ouverte(LA)) throw ERR('Pas de vote pour les adjoints à ce tour.');
+    if (d.length > 2 || a.length > 2) throw ERR('Au plus deux noms par rubrique.');
+    d.forEach(id => { if (LD.indexOf(id) < 0) throw ERR('Un nom choisi n’est pas candidat délégué.'); });
+    a.forEach(id => { if (LA.indexOf(id) < 0) throw ERR('Un nom choisi n’est pas candidat adjoint.'); });
+    if (d.length === 2 && eleveDe(cl, d[0]).g === eleveDe(cl, d[1]).g) throw ERR('Les deux délégués doivent venir de deux groupes différents.');
+    if (c.adjDiff && a.length === 2 && eleveDe(cl, a[0]).g === eleveDe(cl, a[1]).g) throw ERR('Les deux adjoints doivent venir de deux groupes différents.');
+    // l'urne d'abord (sans nom ni date, mélangée à chaque dépôt), puis l'émargement
+    const k = 'u' + n + '_' + cl.cid, urne = env.lireUrne(k) || [];
+    urne.push({ d, a });
+    env.ecrireUrne(k, melanger(urne));
+    dejaEm.push(el.id);
+    cl.emarge[n] = dejaEm;
+    sauverClasse(cl);
+    return { ok: true };
+  };
+
+  /* ---------- actions de l'enseignant ---------- */
+  ACTIONS.a_etat = () => {
+    const c = cfg(), t = maintenant(), tr = c.tours[c.tour - 1];
+    const classes = toutesClasses(c).map(cl => ({
+      cid: cl.cid, nom: cl.nom, groupes: cl.groupes,
+      scrutin: ouverte(liste(cl, tr, 'D')) || ouverte(liste(cl, tr, 'A')),
+      eleves: cl.eleves.map(e => ({ id: e.id, nom: e.nom, g: e.g, code: e.code, votes: Object.keys(cl.emarge || {}).filter(k => cl.emarge[k].indexOf(e.id) >= 0).map(Number) })),
+      cand: Object.keys(cl.cand).map(id => ({ id, roles: cl.cand[id].roles, texte: cl.cand[id].texte }))
+    }));
+    return { ok: true, etat: etatDe(c, t), maintenant: t, verrou: aDesVotes(c),
+      config: { titre: c.titre, etab: c.etab, annee: c.annee, dates: c.dates, forcer: c.forcer, tour: c.tour, tours: c.tours, adjDiff: c.adjDiff }, classes };
+  };
+
+  ACTIONS.a_classes = req => {
+    const c = cfg();
+    if (aDesVotes(c)) throw ERR('Des bulletins ont été déposés : la liste est verrouillée. Réinitialisez les votes pour la modifier.');
+    const entrees = Array.isArray(req.classes) ? req.classes : [];
+    if (entrees.length > 40) throw ERR('40 classes au maximum.');
+    let cseq = c.cseq, eseq = c.eseq;
+    const nomsVus = new Set(), gardes = new Set(), nouvelles = [];
+    entrees.forEach(en => {
+      const nom = propre(en.nom);
+      if (!nom) throw ERR('Une classe n’a pas de nom.');
+      if (nomsVus.has(cle(nom))) throw ERR('Deux classes portent le nom « ' + nom + ' ».');
+      nomsVus.add(cle(nom));
+      const groupes = Array.isArray(en.groupes) ? en.groupes : [];
+      if (!groupes.length || groupes.length > 8) throw ERR('Classe ' + nom + ' : de 1 à 8 groupes.');
+      const ancienne = en.cid ? lireClasse(en.cid) : null;
+      const cid = ancienne ? ancienne.cid : ++cseq;
+      if (cid >= B * B) throw ERR('Trop de classes créées depuis l’origine : réinitialisez tout.');
+      const anciens = {}; if (ancienne) ancienne.eleves.forEach(e => { anciens[cle(e.nom)] = e; });
+      const deja = new Set(ancienne ? ancienne.eleves.map(e => e.code) : []);
+      const eleves = [], vus = new Set();
+      groupes.forEach((g, gi) => (Array.isArray(g.eleves) ? g.eleves : []).forEach(n0 => {
+        const n = propre(n0); if (!n) return;
+        const k = cle(n);
+        if (vus.has(k)) throw ERR('Classe ' + nom + ' : « ' + n + ' » apparaît deux fois (ajoutez l’initiale du prénom pour les distinguer).');
+        vus.add(k);
+        const ex = anciens[k];
+        if (ex) eleves.push({ id: ex.id, nom: n, g: gi, code: ex.code });
+        else { const code = nouveauCode(cid, deja); deja.add(code); eleves.push({ id: String(++eseq), nom: n, g: gi, code }); }
+      }));
+      if (!eleves.length) throw ERR('Classe ' + nom + ' : aucun élève.');
+      const cand = {};
+      if (ancienne) eleves.forEach(e => { if (ancienne.cand[e.id]) cand[e.id] = ancienne.cand[e.id]; });
+      nouvelles.push({ cid, nom, groupes: groupes.map((g, i) => propre(g.nom) || ('Groupe ' + (i + 1))), eleves, cand, emarge: {} });
+      gardes.add(cid);
+    });
+    c.cids.forEach(x => { if (!gardes.has(x.cid)) env.supprimer('c' + x.cid); });
+    nouvelles.forEach(sauverClasse);
+    c.cids = nouvelles.map(cl => ({ cid: cl.cid, nom: cl.nom }));
+    c.cseq = cseq; c.eseq = eseq;
+    sauverCfg(c);
+    return { ok: true };
+  };
+
+  ACTIONS.a_reglages = req => {
+    const c = cfg();
+    c.titre = propre(req.titre).slice(0, 100) || 'Élection des délégués de classe';
+    c.etab = propre(req.etab).slice(0, 100);
+    c.annee = propre(req.annee).slice(0, 20);
+    c.adjDiff = !!req.adjDiff;
+    const lu = k => { const v = req.dates && req.dates[k]; return (v && isFinite(v)) ? Number(v) : null; };
+    if (c.tour === 1) {
+      const d = { debutCand: lu('debutCand'), finCand: lu('finCand'), debutVote: lu('debutVote'), finVote: lu('finVote') };
+      const suite = [d.debutCand, d.finCand, d.debutVote, d.finVote].filter(x => x != null);
+      for (let i = 1; i < suite.length; i++) if (suite[i] < suite[i - 1]) throw ERR('Les dates doivent se suivre : ouverture des candidatures, fin des candidatures, début du vote, fin du vote.');
+      if (d.debutVote != null && d.finVote != null && d.finVote <= d.debutVote) throw ERR('Le vote doit finir après son début.');
+      c.dates = d; c.forcer = null;
+    } else {
+      const fv = lu('finVote');
+      if (fv != null && fv <= maintenant()) throw ERR('La fin du vote doit être dans le futur.');
+      c.dates.finVote = fv; c.forcer = null;
+    }
+    sauverCfg(c);
+    return { ok: true };
+  };
+
+  ACTIONS.a_forcer = req => {
+    const c = cfg(), e = req.etat || null;
+    if ([null, 'preparation', 'candidatures', 'attente', 'vote', 'clos'].indexOf(e) < 0) throw ERR('État inconnu.');
+    if (aDesVotes(c) && (e === 'preparation' || e === 'candidatures' || e === 'attente')) throw ERR('Des bulletins ont été déposés : on ne revient plus en arrière.');
+    if (e === 'vote' && !toutesClasses(c).some(cl => Object.keys(cl.cand).length)) throw ERR('Aucun candidat dans aucune classe : le vote n’a pas d’objet.');
+    c.forcer = e;
+    sauverCfg(c);
+    return { ok: true };
+  };
+
+  ACTIONS.a_candidat = req => {
+    const c = cfg();
+    if (['preparation', 'candidatures', 'attente'].indexOf(etatDe(c, maintenant())) < 0) throw ERR('Les candidatures ne se modifient plus une fois le vote lancé.');
+    const cl = lireClasse(req.cid); if (!cl) throw ERR('Classe inconnue.');
+    const id = String(req.eleveId), el = eleveDe(cl, id); if (!el) throw ERR('Élève inconnu.');
+    if (req.op === 'retirer') delete cl.cand[id];
+    else cl.cand[id] = { roles: validerRoles(req.roles), texte: validerTexte(req.texte) };
+    sauverClasse(cl);
+    return { ok: true };
+  };
+
+  ACTIONS.a_resultats = () => {
+    const c = cfg(), etat = etatDe(c, maintenant());
+    const max = etat === 'clos' ? c.tour : c.tour - 1;
+    if (max < 1) throw ERR('Les résultats ne sont communiqués qu’à la clôture du scrutin.');
+    const cls = toutesClasses(c), tours = [];
+    for (let n = 1; n <= max; n++) tours.push({ n, classes: cls.map(cl => calculer(cl, c, n)) });
+    const final = cls.map((cl, i) => {
+      const o = { cid: cl.cid, nom: cl.nom, D: null, A: null };
+      ['D', 'A'].forEach(sec => {
+        for (let n = max; n >= 1; n--) {
+          const r = tours[n - 1].classes[i][sec];
+          if (r) { o[sec] = { tour: n, elus: r.elus.map(id => r.candidats.find(x => x.id === id)), egalite: r.egalite, provisoire: r.provisoire }; break; }
+        }
+      });
+      return o;
+    });
+    return { ok: true, clos: etat === 'clos', tourEnCours: c.tour, adjDiff: c.adjDiff, tours, final };
+  };
+
+  ACTIONS.a_tour = req => {
+    const c = cfg(), t = maintenant();
+    if (etatDe(c, t) !== 'clos') throw ERR('Clôturez d’abord le tour en cours.');
+    if (c.tour >= 4) throw ERR('4 tours au maximum.');
+    const D = unique(req.D), A = unique(req.A);
+    if (!D.length && !A.length) throw ERR('Retenez au moins un candidat.');
+    const fv = req.finVote ? Number(req.finVote) : null;
+    if (fv && fv <= t) throw ERR('La fin du vote doit être dans le futur.');
+    c.tour++; c.tours.push({ n: c.tour, D, A });
+    c.dates = { debutCand: t - 3, finCand: t - 2, debutVote: t - 1, finVote: fv };
+    c.forcer = null;
+    sauverCfg(c);
+    return { ok: true };
+  };
+
+  ACTIONS.a_reinit = req => {
+    if (req.confirmation !== 'EFFACER') throw ERR('Tapez EFFACER pour confirmer.');
+    const c = cfg();
+    toutesClasses(c).forEach(cl => {
+      for (let n = 1; n <= c.tour; n++) env.supprimerUrne('u' + n + '_' + cl.cid);
+      cl.emarge = {};
+      if (req.quoi === 'tout') cl.cand = {};
+      sauverClasse(cl);
+    });
+    c.tour = 1; c.tours = [{ n: 1, D: null, A: null }]; c.forcer = null;
+    if (req.quoi === 'tout') c.dates = {};
+    sauverCfg(c);
+    return { ok: true };
+  };
+
+  /* ---------- point d'entrée ---------- */
+  function traiter(req) {
+    try {
+      const a = req && req.action, f = Object.prototype.hasOwnProperty.call(ACTIONS, a) ? ACTIONS[a] : null;
+      if (!f) throw ERR('Action inconnue.');
+      if (a.indexOf('a_') === 0) verifierMdp(req);
+      if (MUTANTES[a]) return env.verrou(() => { if (env.recharger) env.recharger(); return f(req); });
+      return f(req);
+    } catch (e) {
+      if (e && e.metier) return { ok: false, erreur: e.message };
+      if (env.journal) env.journal(e);
+      return { ok: false, erreur: 'Erreur interne du serveur.' };
+    }
+  }
+  return { traiter };
+}
+
+
+/* ---------- serveur local de démonstration (localStorage) ---------- */
+const LOCAL = (function () {
+  const mem = {}, P = 'electionDemo:';
+  const get = k => { try { return localStorage.getItem(P + k); } catch (e) { return mem[k] == null ? null : mem[k]; } };
+  const set = (k, v) => { try { localStorage.setItem(P + k, v); } catch (e) { mem[k] = v; } };
+  const del = k => { try { localStorage.removeItem(P + k); } catch (e) { delete mem[k]; } };
+  return creerMoteur({
+    mdp: 'demo', maintenant: () => Date.now(), pause() {}, verrou: f => f(),
+    hasard: () => { const a = new Uint32Array(2); crypto.getRandomValues(a); return (a[0] * 2097152 + (a[1] >>> 11)) / 9007199254740992; },
+    lire: k => { const v = get('d:' + k); return v ? JSON.parse(v) : null; }, ecrire: (k, o) => set('d:' + k, JSON.stringify(o)), supprimer: k => del('d:' + k),
+    lireUrne: k => { const v = get('u:' + k); return v ? JSON.parse(v) : null; }, ecrireUrne: (k, a) => set('u:' + k, JSON.stringify(a)), supprimerUrne: k => del('u:' + k)
+  });
+})();
+
+/* ---------- utilitaires ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fmt = ms => ms ? new Date(ms).toLocaleString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }) : null;
+const pct = x => Math.round(x * 100) + ' %';
+const versLocal = ms => { if (!ms) return ''; const d = new Date(ms), p = n => String(n).padStart(2, '0'); return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) + 'T' + p(d.getHours()) + ':' + p(d.getMinutes()); };
+const depuisLocal = v => v ? new Date(v).getTime() : null;
+const melange = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const ETAT_LIB = { preparation: 'En préparation', candidatures: 'Candidatures ouvertes', attente: 'Candidatures closes', vote: 'Vote ouvert', clos: 'Scrutin clos' };
+const pastille = e => '<span class="pastille ' + e + '">' + ETAT_LIB[e] + '</span>';
+const rolesTxt = r => (r.indexOf('D') >= 0 ? 'Délégué' : '') + (r === 'DA' ? ' et ' : '') + (r.indexOf('A') >= 0 ? (r === 'DA' ? 'adjoint' : 'Adjoint') : '');
+const rolesBadges = r => (r.indexOf('D') >= 0 ? '<span class="badge bleu">Délégué</span> ' : '') + (r.indexOf('A') >= 0 ? '<span class="badge or">Adjoint</span>' : '');
+
+function telecharger(nom, lignes) {
+  const csv = '﻿' + lignes.map(l => l.map(x => '"' + String(x == null ? '' : x).replace(/"/g, '""') + '"').join(';')).join('\r\n');
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' })); a.download = nom;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+}
+
+/* ---------- appel du serveur ---------- */
+async function appel(action, d) {
+  document.body.classList.add('occupe');
+  try {
+    let r;
+    if (DEMO) { await new Promise(ok => setTimeout(ok, 50)); r = LOCAL.traiter(Object.assign({ action }, d)); }
+    else {
+      let rep;
+      try { rep = await fetch(URL_SCRIPT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(Object.assign({ action }, d)) }); }
+      catch (e) { throw new Error('Impossible de joindre le serveur. Vérifie ta connexion puis réessaie.'); }
+      try { r = await rep.json(); } catch (e) { throw new Error('Le serveur n’a pas répondu correctement (le script Google est-il bien déployé en « Tout le monde » ?).'); }
+    }
+    if (!r.ok) throw new Error(r.erreur || 'Erreur');
+    return r;
+  } finally { document.body.classList.remove('occupe'); }
+}
+
+/* ---------- état de l'application ---------- */
+const S = { vue: 'accueil', info: null, code: '', eleve: null, ordre: null, bull: { D: [], A: [], etape: 'choix', fini: false }, prof: null, flash: null };
+const flash = (type, texte) => { S.flash = { type, texte }; };
+const flashHtml = () => { const f = S.flash; S.flash = null; return f ? '<div class="flash ' + f.type + '" role="status">' + esc(f.texte) + '</div>' : ''; };
+
+function entete() {
+  const i = S.info || {};
+  $('#titreSite').textContent = i.titre || 'Élection des délégués';
+  $('#sousTitre').textContent = [i.etab, i.annee].filter(Boolean).join(' · ');
+  document.title = (i.titre || 'Élection des délégués');
+  $('#bandeauDemo').innerHTML = DEMO ? '<div class="demo"><b>Mode démonstration</b> — les données restent dans ce navigateur, le mot de passe enseignant est <b>demo</b>. Pour une vraie élection, branchez le script Google (voir MODE_D_EMPLOI.md).</div>' : '';
+  let nav = '';
+  if (S.vue === 'accueil') nav = '<a href="#regles">Les règles</a><a href="#roles">Les rôles</a><a href="#calendrier">Le calendrier</a>';
+  else if (S.vue === 'eleve') nav = '<button class="lien" data-act="actualiser">↻ Actualiser</button><button class="lien" data-act="quitter">Quitter</button>';
+  else if (S.vue === 'prof') nav = '<button class="lien" data-act="quitter">Quitter l’espace enseignant</button>';
+  else nav = '<button class="lien" data-act="accueil">← Retour</button>';
+  $('#nav').innerHTML = nav;
+}
+
+function rendre() {
+  entete();
+  const app = $('#app');
+  if (S.vue === 'accueil') app.innerHTML = flashHtml() + vueAccueil();
+  else if (S.vue === 'eleve') { app.innerHTML = flashHtml() + vueEleve(); if (S.eleve && S.eleve.sections && !S.bull.fini) majBulletin(); }
+  else if (S.vue === 'profEntree') app.innerHTML = flashHtml() + vueProfEntree();
+  else if (S.vue === 'prof') { app.innerHTML = flashHtml() + vueProf(); }
+  window.scrollTo(0, 0);
+}
+
+/* =====================================================================
+   ACCUEIL
+   ===================================================================== */
+function etapes(info) {
+  const d = info.dates || {}, e = info.etat;
+  const L = [['preparation', 'Préparation', 'Les listes sont prêtes'],
+    ['candidatures', 'Candidatures', d.debutCand ? (fmt(d.debutCand) + (d.finCand ? ' → ' + fmt(d.finCand) : '')) : 'Dates à venir'],
+    ['vote', 'Vote', d.debutVote ? (fmt(d.debutVote) + (d.finVote ? ' → ' + fmt(d.finVote) : '')) : 'Date à venir'],
+    ['clos', 'Résultats', 'Communiqués par ton professeur']];
+  const courant = e === 'attente' ? 'candidatures' : e;
+  return '<ol class="etapes">' + L.map(x => '<li' + (x[0] === courant ? ' class="cour" aria-current="step"' : '') + '><b>' + x[1] + '</b><small>' + esc(x[2]) + '</small></li>').join('') + '</ol>';
+}
+
+function vueAccueil() {
+  const i = S.info;
+  if (!i) return '<div class="carte"><p>Chargement…</p></div>';
+  const phrase = {
+    preparation: 'Les candidatures ne sont pas encore ouvertes.',
+    candidatures: 'Tu peux te présenter' + (i.dates.finCand ? ' jusqu’au ' + fmt(i.dates.finCand) : '') + '.',
+    attente: 'Les candidatures sont closes' + (i.dates.debutVote ? ' — le vote ouvre le ' + fmt(i.dates.debutVote) : '') + '.',
+    vote: 'Le vote est ouvert' + (i.dates.finVote ? ' jusqu’au ' + fmt(i.dates.finVote) : '') + (i.tour > 1 ? ' (tour ' + i.tour + ')' : '') + '.',
+    clos: 'Le scrutin est clos. Ton professeur communiquera les résultats.' }[i.etat];
+  return `
+  <section class="hero">
+    <p class="kicker">${esc([i.etab, i.annee].filter(Boolean).join(' · ') || 'Vie de la classe')}</p>
+    <h1>${esc(i.titre)}</h1>
+    <p class="chapo">Chaque classe élit <b>deux délégués</b>, issus de <b>deux groupes différents</b>, et <b>deux adjoints</b>. Découvre les règles du jeu, présente-toi si tu en as envie, puis vote — en secret.</p>
+    <p>${pastille(i.etat)} &nbsp; ${esc(phrase)}</p>
+  </section>
+
+  <section class="carte" aria-labelledby="hConn">
+    <h2 id="hConn">Entrer avec mon code personnel</h2>
+    <form data-form="connexion" autocomplete="off">
+      <label class="champ">Mon code (8 signes, remis par mon professeur)
+        <input id="code" class="code-saisie" type="text" inputmode="text" maxlength="12" placeholder="XXXX-XXXX" autocapitalize="characters" spellcheck="false" value="${esc(S.code)}" required></label>
+      <div class="rangee"><button class="bouton" type="submit">Entrer</button><span class="aide">Ce code est à toi seul : ne le prête à personne, même pour « aider ».</span></div>
+    </form>
+  </section>
+
+  <section class="carte" id="regles">
+    <p class="kicker">Les règles du jeu</p>
+    <h2>Une élection, c’est de la démocratie en petit</h2>
+    <p>Dans les lycées publics, chaque classe élit ses délégués pour l’année scolaire : ils sont choisis par les élèves de la classe, au scrutin uninominal à deux tours. Voici les principes que nous respectons ici.</p>
+    <div class="grille">
+      <div class="principe"><h3>Une personne, une voix</h3><p>Tous les élèves de la classe votent. Chacun dispose d’un seul bulletin, qu’il ne peut déposer qu’une fois.</p></div>
+      <div class="principe"><h3>Le vote est secret</h3><p>Personne ne saura pour qui tu as voté, pas même ton professeur. Ton nom est seulement coché sur la liste des votants ; ton bulletin tombe dans l’urne sans nom ni heure.</p></div>
+      <div class="principe"><h3>Le vote est libre et personnel</h3><p>Tu ne subis aucune pression et tu ne votes jamais à la place d’un autre. Voter blanc est un droit.</p></div>
+      <div class="principe"><h3>Candidature ouverte à tous</h3><p>Chacun peut se présenter, quel que soit son niveau ou ses amis. On lit et on écoute toutes les candidatures avec le même respect.</p></div>
+      <div class="principe"><h3>Deux groupes, deux voix</h3><p>Les deux délégués viennent de deux groupes différents, pour que chaque groupe de la classe soit représenté.</p></div>
+      <div class="principe"><h3>Le résultat s’impose à tous</h3><p>Sont élus ceux qui obtiennent le plus de voix. En cas d’égalité, un tour de plus les départage. On respecte le résultat, même s’il ne nous plaît pas.</p></div>
+    </div>
+  </section>
+
+  <section class="carte cols" id="roles">
+    <p class="kicker">Les rôles</p>
+    <h2>Délégué, adjoint : à quoi ça sert ?</h2>
+    <div class="grille deux">
+      <div>
+        <h3><span class="badge bleu">Délégué</span> la voix de la classe</h3>
+        <ul class="puces">
+          <li>Il porte la parole de la classe : questions, difficultés, idées, projets.</li>
+          <li>Il représente ses camarades au <b>conseil de classe</b> et fait le lien avec les professeurs, la vie scolaire et la direction.</li>
+          <li>Il participe à l’assemblée des délégués, qui désigne les représentants des élèves dans les instances du lycée.</li>
+          <li>Il rend compte à la classe de ce qui a été dit et décidé.</li>
+        </ul>
+      </div>
+      <div>
+        <h3><span class="badge or">Adjoint</span> le second de la classe</h3>
+        <ul class="puces">
+          <li>Il <b>remplace</b> le délégué quand celui-ci est absent ou démissionne.</li>
+          <li>Il prépare les réunions avec lui : recueillir les remarques, répartir les tâches.</li>
+          <li>Il est un relais de plus : certains élèves lui parlent plus facilement.</li>
+          <li>Il se forme au rôle de délégué et peut en prendre la relève.</li>
+        </ul>
+      </div>
+    </div>
+    <h3>Les qualités d’un bon représentant</h3>
+    <div class="rangee">
+      ${['À l’écoute', 'Disponible', 'Fiable et ponctuel', 'Juste avec tous', 'Discret quand il le faut', 'Courageux et poli', 'Esprit d’équipe'].map(q => '<span class="badge">' + q + '</span>').join('')}
+    </div>
+    <p class="aide" style="margin-top:12px">Un délégué n’est ni un « chef de classe », ni un surveillant, ni un juge : il parle <i>pour</i> la classe, pas à sa place. Il n’a pas besoin d’être le meilleur élève, mais il doit être quelqu’un à qui l’on peut faire confiance.</p>
+  </section>
+
+  <section class="carte" id="calendrier">
+    <p class="kicker">Le calendrier</p>
+    <h2>Où en est-on ?</h2>
+    ${etapes(i)}
+  </section>`;
+}
+
+/* =====================================================================
+   ESPACE ÉLÈVE
+   ===================================================================== */
+function vueEleve() {
+  const v = S.eleve; if (!v) return '';
+  const tete = `<section class="hero"><p class="kicker">${esc(v.eleve.classe)} · ${esc(v.eleve.groupe)}</p><h1>Bonjour ${esc(v.eleve.nom)}</h1><p>${pastille(v.etat)}${v.tour > 1 && v.etat === 'vote' ? ' &nbsp; <span class="badge">Tour ' + v.tour + '</span>' : ''}</p></section>`;
+  let corps = '';
+  const d = v.dates || {};
+  if (v.etat === 'preparation') corps = `<div class="carte"><h2>Les candidatures ne sont pas encore ouvertes</h2><p>${d.debutCand ? 'Elles ouvriront le <b>' + fmt(d.debutCand) + '</b>.' : 'Ton professeur annoncera la date.'} Reviens à ce moment-là avec ton code.</p><p class="aide">En attendant, relis les règles et les rôles sur la page d’accueil et réfléchis : te présenterais-tu ? pour quoi faire ?</p></div>`;
+  else if (v.etat === 'candidatures') corps = panneauCandidature(v) + listeCandidats(v);
+  else if (v.etat === 'attente') corps = `<div class="carte"><h2>Les candidatures sont closes</h2><p>${d.debutVote ? 'Le vote ouvrira le <b>' + fmt(d.debutVote) + '</b>.' : 'Ton professeur annoncera l’ouverture du vote.'}</p>${v.moi ? '<p>Ta candidature est bien enregistrée (' + esc(rolesTxt(v.moi.roles)) + ').</p>' : ''}</div>` + listeCandidats(v);
+  else if (v.etat === 'vote') corps = panneauVote(v);
+  else corps = `<div class="carte"><h2>Le scrutin est clos</h2><p>Merci d’avoir participé à la vie de ta classe. Les résultats te seront communiqués par ton professeur.</p></div>`;
+  return tete + corps;
+}
+
+/* deux délégués de groupes différents : il faut des candidats délégués dans au moins deux groupes */
+function manqueDelegues(groupes, cands) {            // cands : [{groupe (nom), roles}]
+  const ont = new Set(cands.filter(x => x.roles.indexOf('D') >= 0).map(x => x.groupe));
+  const sans = groupes.filter(g => !ont.has(g));
+  return ont.size >= 2 ? '' : '<div class="note"><b>Attention :</b> les deux délégués devant venir de deux groupes différents, il faut des candidats délégués dans <b>au moins deux groupes</b>. Pour l’instant, aucun candidat délégué dans : <b>' + sans.map(esc).join(', ') + '</b>.</div>';
+}
+function listeCandidats(v) {
+  const c = v.candidats;
+  return `<section class="carte"><h2>Les candidats de ma classe <span class="badge">${c.length}</span></h2>${v.etat === 'candidatures' ? manqueDelegues(v.groupes, c) : ''}${c.length ? '<div class="grille">' + c.map(x =>
+    `<div class="cand"><b>${esc(x.nom)}</b> <span class="badge">${esc(x.groupe)}</span><div style="margin-top:6px">${rolesBadges(x.roles)}</div><p>${x.texte ? esc(x.texte) : '<i>Pas de message.</i>'}</p></div>`).join('') + '</div>'
+    : '<p class="aide">Personne ne s’est encore présenté dans ta classe.</p>'}</section>`;
+}
+
+function panneauCandidature(v) {
+  const m = v.moi, d = v.dates || {};
+  return `<section class="carte"><h2>${m ? 'Ma candidature' : 'Je me présente ?'}</h2>
+    <p>${d.finCand ? 'Tu peux te présenter ou te retirer jusqu’au <b>' + fmt(d.finCand) + '</b>.' : 'Les candidatures sont ouvertes.'} Présenter sa candidature, c’est proposer de rendre service à la classe.</p>
+    <form data-form="candidater">
+      <fieldset style="border:0;padding:0;margin:0 0 12px"><legend class="aide" style="padding:0;margin-bottom:6px">Pour quel rôle ? (un seul, ou les deux)</legend>
+        <label style="margin-right:18px"><input type="checkbox" name="roles" value="D" ${!m || m.roles.indexOf('D') >= 0 ? 'checked' : ''}> Délégué</label>
+        <label><input type="checkbox" name="roles" value="A" ${m && m.roles.indexOf('A') >= 0 ? 'checked' : ''}> Adjoint</label></fieldset>
+      <label class="champ">Mon message à la classe (300 caractères) — pourquoi je me présente, ce que je ferai
+        <textarea id="texte" maxlength="300" placeholder="Ex. : J’aime écouter les autres et je veux que chacun puisse s’exprimer. Je serai disponible à la récré pour recueillir vos remarques.">${esc(m ? m.texte : '')}</textarea></label>
+      <div class="rangee"><button class="bouton" type="submit">${m ? 'Mettre à jour ma candidature' : 'Je me présente'}</button>
+      ${m ? '<button class="bouton sec" type="button" data-act="retirerCand">Retirer ma candidature</button>' : ''}</div>
+    </form></section>`;
+}
+
+function panneauVote(v) {
+  if (v.aVote || S.bull.fini) return `<section class="carte"><h2>✔ Ton vote est enregistré</h2><p>Merci ! Ton bulletin est dans l’urne, sans ton nom et sans l’heure : <b>personne ne peut savoir pour qui tu as voté</b>.</p><p class="aide">Seule ta participation (« a voté ») est notée, comme l’émargement dans un bureau de vote.</p><button class="bouton" data-act="quitter">Me déconnecter</button></section>`;
+  if (!v.scrutin) return `<section class="carte"><h2>Pas de vote pour ta classe</h2><p>${v.tour > 1 ? 'Ta classe n’a pas de second tour.' : 'Aucun élève ne s’est présenté dans ta classe.'} Ton professeur te dira la suite.</p></section>`;
+  const sec = v.sections, o = S.ordre;
+  const rub = (k, titre, aide) => {
+    if (!sec[k] || !sec[k].length) return '';
+    const par = {}; sec[k].forEach(x => par[x.id] = x);
+    return `<fieldset class="rub"><legend>${titre}</legend><p class="aide">${aide}</p>` + o[k].map(id => par[id]).filter(Boolean).map(x =>
+      `<label class="choix" data-choix="${k}:${x.id}"><input type="checkbox" data-b="${k}" value="${x.id}" data-g="${x.g}"><span><span class="nom">${esc(x.nom)}</span><span class="badge grp">${esc(x.groupe)}</span></span>${x.texte ? '<span class="txt">' + esc(x.texte) + '</span>' : ''}</label>`).join('') + '</fieldset>';
+  };
+  if (S.bull.etape === 'verif') {
+    const nom = (k, id) => { const x = sec[k].find(y => y.id === id); return esc(x.nom) + ' <span class="badge">' + esc(x.groupe) + '</span>'; };
+    const ligne = (k, t) => sec[k] && sec[k].length ? '<li><b>' + t + ' :</b> ' + (S.bull[k].length ? S.bull[k].map(id => nom(k, id)).join(' et ') : '<i>vote blanc</i>') + '</li>' : '';
+    return `<section class="carte"><h2>Vérifie ton bulletin</h2><ul class="resume">${ligne('D', 'Délégués')}${ligne('A', 'Adjoints')}</ul>
+      <div class="note"><b>Attention :</b> une fois déposé, le bulletin ne peut plus être modifié.</div>
+      <div class="rangee"><button class="bouton" data-act="deposer">Je dépose mon bulletin</button><button class="bouton sec" data-act="modifierBull">← Modifier</button></div></section>`;
+  }
+  return `<section class="carte"><h2>Mon bulletin de vote</h2>
+    <div class="secret">🔒 <span>Vote secret : ton nom ne sera jamais associé à tes choix. Tu peux ne rien cocher pour voter blanc.</span></div>
+    ${rub('D', 'Délégués — jusqu’à 2 noms', 'Choisis jusqu’à <b>deux</b> candidats, qui doivent venir de <b>deux groupes différents</b>. Les noms sont dans un ordre tiré au hasard.')}
+    ${rub('A', 'Adjoints — jusqu’à 2 noms', 'Choisis jusqu’à <b>deux</b> candidats' + (v.adjDiff ? ', de <b>deux groupes différents</b>' : '') + '. Les noms sont dans un ordre tiré au hasard.')}
+    <p id="msgBull" class="aide" aria-live="polite"></p>
+    <button class="bouton" data-act="verifier">Vérifier mon bulletin →</button></section>`;
+}
+
+function majBulletin() {
+  const sec = S.eleve.sections; if (!sec) return;
+  ['D', 'A'].forEach(k => {
+    const boites = [...document.querySelectorAll('input[data-b="' + k + '"]')];
+    boites.forEach(b => { b.checked = S.bull[k].indexOf(b.value) >= 0; });
+    const choisis = boites.filter(b => b.checked), diff = k === 'D' || S.eleve.adjDiff;
+    boites.forEach(b => {
+      let off = false;
+      if (!b.checked) { if (choisis.length >= 2) off = true; else if (diff && choisis.length === 1 && choisis[0].dataset.g === b.dataset.g) off = true; }
+      b.disabled = off;
+      const l = b.closest('.choix'); l.classList.toggle('sel', b.checked); l.classList.toggle('dis', off);
+    });
+  });
+  const m = $('#msgBull');
+  if (m) m.textContent = (S.bull.D.length === 1 ? 'Délégués : tu as choisi un nom ; les candidats de son groupe sont grisés. ' : '') || '';
+}
+
+/* =====================================================================
+   ESPACE ENSEIGNANT
+   ===================================================================== */
+function vueProfEntree() {
+  return `<section class="carte" style="max-width:460px;margin:30px auto"><h2>Espace enseignant</h2>
+    <form data-form="profConnexion"><label class="champ">Mot de passe<input id="mdp" type="password" autocomplete="current-password" required autofocus></label>
+    <div class="rangee"><button class="bouton" type="submit">Se connecter</button></div></form>
+    ${DEMO ? '<p class="aide" style="margin-top:12px">Mode démonstration : le mot de passe est <b>demo</b>.</p>' : ''}</section>`;
+}
+
+async function profCharger() {
+  const r = await appel('a_etat', { mdp: S.prof.mdp });
+  S.prof.d = r;
+  if (!S.prof.ed) S.prof.ed = editeurDepuis(r);
+}
+function editeurDepuis(r) {
+  return r.classes.map(c => ({ cid: c.cid, nom: c.nom, groupes: c.groupes.map((nom, gi) => ({ nom, texte: c.eleves.filter(e => e.g === gi).map(e => e.nom).join('\n') })) }));
+}
+
+function vueProf() {
+  const P = S.prof, d = P.d;
+  const onglets = [['bord', 'Tableau de bord'], ['classes', 'Classes et élèves'], ['cal', 'Calendrier et réglages'], ['cand', 'Candidatures'], ['suivi', 'Participation'], ['res', 'Résultats']];
+  let corps = '';
+  if (P.onglet === 'bord') corps = profBord();
+  else if (P.onglet === 'classes') corps = profClasses();
+  else if (P.onglet === 'cal') corps = profCal();
+  else if (P.onglet === 'cand') corps = profCand();
+  else if (P.onglet === 'suivi') corps = profSuivi();
+  else corps = profRes();
+  return `<div class="rangee" style="justify-content:space-between;margin-bottom:6px"><h1 style="margin:0;font-size:1.6rem">Espace enseignant</h1><span>${pastille(d.etat)}${d.config.tour > 1 ? ' <span class="badge">Tour ' + d.config.tour + '</span>' : ''}</span></div>
+    <div class="onglets noprint" role="tablist">${onglets.map(o => '<button role="tab" data-act="onglet" data-o="' + o[0] + '" aria-selected="' + (P.onglet === o[0]) + '">' + o[1] + '</button>').join('')}</div>${corps}`;
+}
+
+/* ----- tableau de bord ----- */
+function profBord() {
+  const d = S.prof.d, c = d.config, nbEl = d.classes.reduce((s, x) => s + x.eleves.length, 0), nbCand = d.classes.reduce((s, x) => s + x.cand.length, 0);
+  const cal = c.dates || {};
+  const act = (e, t, cls) => '<button class="bouton ' + (cls || '') + '" data-act="forcer" data-e="' + e + '">' + t + '</button>';
+  let boutons = '';
+  if (d.etat === 'preparation') boutons = act('candidatures', 'Ouvrir les candidatures maintenant');
+  else if (d.etat === 'candidatures') boutons = act('attente', 'Clore les candidatures', 'sec') + act('vote', 'Lancer le vote maintenant');
+  else if (d.etat === 'attente') boutons = act('vote', 'Lancer le vote maintenant') + (d.verrou ? '' : act('candidatures', 'Rouvrir les candidatures', 'sec'));
+  else if (d.etat === 'vote') boutons = act('clos', 'Clore le scrutin maintenant', 'danger');
+  else boutons = '<button class="bouton" data-act="onglet" data-o="res">Voir les résultats</button>';
+  if (c.forcer) boutons += '<button class="bouton sec" data-act="forcer" data-e="">Suivre le calendrier</button>';
+  const tour = c.tour;
+  let part = '';
+  if (d.etat === 'vote' || d.etat === 'clos') {
+    const act1 = d.classes.filter(x => x.scrutin), ins = act1.reduce((s, x) => s + x.eleves.length, 0), vot = act1.reduce((s, x) => s + x.eleves.filter(e => e.votes.indexOf(tour) >= 0).length, 0);
+    part = `<div class="carte"><h2>Participation${tour > 1 ? ' — tour ' + tour : ''}</h2><div class="statistiques"><div><span class="chiffre">${vot}</span><small>ont voté</small></div><div><span class="chiffre">${ins}</span><small>inscrits</small></div><div><span class="chiffre">${ins ? pct(vot / ins) : '—'}</span><small>de participation</small></div></div></div>`;
+  }
+  const ok = b => b ? '✅' : '⬜';
+  return `<div class="carte"><h2>Où en est l’élection ?</h2>
+    <p>${pastille(d.etat)}${c.forcer ? ' <span class="badge or">forcé à la main</span>' : ''}</p>
+    <div class="rangee">${boutons}</div>
+    ${d.etat === 'vote' ? '<p class="aide" style="margin-top:10px">Les résultats restent invisibles tant que le scrutin n’est pas clos.</p>' : ''}</div>
+    ${part}
+    <div class="carte"><h2>Avant de lancer</h2><ul style="list-style:none;padding:0;margin:0;line-height:2">
+      <li>${ok(d.classes.length)} <b>Classes et élèves</b> : ${d.classes.length} classe(s), ${nbEl} élève(s) <button class="lien" data-act="onglet" data-o="classes">modifier</button></li>
+      <li>${ok(d.classes.length)} <b>Codes personnels</b> générés <button class="lien" data-act="imprCodes">imprimer les fiches</button> <button class="lien" data-act="csvCodes">exporter (CSV)</button></li>
+      <li>${ok(cal.debutCand)} <b>Calendrier</b> ${cal.debutCand ? '(candidatures dès le ' + fmt(cal.debutCand) + ')' : 'à fixer'} <button class="lien" data-act="onglet" data-o="cal">régler</button></li>
+      <li>${ok(nbCand)} <b>Candidats</b> : ${nbCand} <button class="lien" data-act="onglet" data-o="cand">voir</button></li></ul>
+      ${d.verrou ? '<div class="note">Des bulletins sont déposés : la liste des élèves est verrouillée.</div>' : ''}</div>
+    ${DEMO ? profDemo() : ''}`;
+}
+
+function profDemo() {
+  return `<div class="carte"><h2>Outils de démonstration</h2><p class="aide">Pour essayer l’application sans rien saisir : classes fictives, candidatures, votes simulés. Disponible seulement dans ce mode.</p>
+    <div class="rangee"><button class="bouton sec" data-act="demoCharger">1 · Créer 2 classes d’exemple + candidats</button><button class="bouton sec" data-act="demoVotes">2 · Simuler des votes (vote ouvert)</button></div></div>`;
+}
+
+/* ----- classes et élèves ----- */
+function profClasses() {
+  const P = S.prof, d = P.d, ed = P.ed, verrou = d.verrou;
+  const nbLignes = t => t.split('\n').filter(x => x.trim()).length;
+  return `<div class="carte"><h2>Classes, groupes et élèves</h2>
+    <p>Donnez le nom de chaque classe, le nombre de groupes, puis collez la liste des élèves de chaque groupe (<b>un élève par ligne</b>, « NOM Prénom »). Chaque élève reçoit un <b>code personnel</b> de 8 signes.</p>
+    ${verrou ? '<div class="note">🔒 Des bulletins sont déposés : la liste est verrouillée (réinitialisez les votes dans « Calendrier et réglages » pour la modifier).</div>' : ''}
+    <div id="editeur">${ed.map((c, ci) => `<div class="ed-classe" data-ci="${ci}">
+      <div class="rangee" style="margin-bottom:10px"><label class="champ" style="flex:1;min-width:150px;margin:0">Classe<input type="text" data-m="nom" value="${esc(c.nom)}" ${verrou ? 'disabled' : ''}></label>
+        <label class="champ" style="width:130px;margin:0">Nombre de groupes<select data-m="nbg" ${verrou ? 'disabled' : ''}>${[1, 2, 3, 4, 5, 6, 7, 8].map(n => '<option' + (n === c.groupes.length ? ' selected' : '') + '>' + n + '</option>').join('')}</select></label>
+        ${verrou ? '' : '<button class="bouton sec petit" data-act="suppClasse" data-ci="' + ci + '">Supprimer la classe</button>'}</div>
+      <div class="grille">${c.groupes.map((g, gi) => `<div><label class="champ" style="margin-bottom:6px">Groupe ${gi + 1} — nom<input type="text" data-m="gnom" data-gi="${gi}" value="${esc(g.nom)}" ${verrou ? 'disabled' : ''}></label>
+        <textarea data-m="gtexte" data-gi="${gi}" placeholder="DUPONT Léa&#10;MARTIN Hugo&#10;…" ${verrou ? 'disabled' : ''} aria-label="Élèves du groupe ${gi + 1}">${esc(g.texte)}</textarea><small class="aide" data-nb>${nbLignes(g.texte)} élève(s)</small></div>`).join('')}</div></div>`).join('')}
+    ${ed.length ? '' : '<p class="aide">Aucune classe pour l’instant.</p>'}</div>
+    ${verrou ? '' : `<div class="rangee"><button class="bouton sec" data-act="ajoutClasse">+ Ajouter une classe</button><button class="bouton" data-act="enregClasses">Enregistrer les classes et générer les codes</button></div>
+    <details class="plie"><summary>Coller un tableau depuis Excel / Pronote</summary>
+      <p class="aide">Une ligne par élève : <code>Classe ; Groupe ; NOM Prénom</code> (séparés par une tabulation ou un point-virgule). Le groupe peut être un numéro (1, 2, 3…) ou un nom. Sans groupe : <code>Classe ; NOM Prénom</code> (groupe 1).</p>
+      <textarea id="importTab" placeholder="2EMNB1;1;DUPONT Léa&#10;2EMNB1;2;MARTIN Hugo"></textarea>
+      <div class="rangee" style="margin-top:8px"><button class="bouton sec" data-act="importer">Ajouter à la liste ci-dessus</button></div></details>`}</div>
+    ${d.classes.length ? `<div class="carte"><h2>Fiches de codes</h2><p>Imprimez les fiches, découpez-les et remettez-en une à chaque élève <b>en main propre</b>. Une fiche perdue ? Le code reste le même : vous pouvez la réimprimer.</p>
+      <div class="rangee"><button class="bouton" data-act="imprCodes">Imprimer les fiches</button><button class="bouton sec" data-act="csvCodes">Exporter en CSV</button></div></div>` : ''}`;
+}
+
+/* ----- calendrier et réglages ----- */
+function profCal() {
+  const d = S.prof.d, c = d.config, dt = c.dates || {}, t1 = c.tour === 1;
+  const champ = (k, t, off) => `<label class="champ">${t}<input type="datetime-local" id="d_${k}" value="${versLocal(dt[k])}" ${off ? 'disabled' : ''}></label>`;
+  return `<div class="carte"><h2>Calendrier</h2>
+    <p>Les phases changent <b>toutes seules</b> aux dates indiquées. Vous pouvez aussi les forcer à la main depuis le tableau de bord.</p>
+    ${t1 ? '' : '<div class="note">Un tour supplémentaire est en cours : seule la fin du vote est modifiable.</div>'}
+    <form data-form="reglages">
+      <div class="grille">${champ('debutCand', 'Ouverture des candidatures', !t1)}${champ('finCand', 'Fin des candidatures', !t1)}${champ('debutVote', 'Début du vote', !t1)}${champ('finVote', 'Fin du vote (le scrutin se clôt seul)', false)}</div>
+      <h3 style="margin-top:14px">Réglages</h3>
+      <div class="grille deux"><label class="champ">Titre<input type="text" id="r_titre" value="${esc(c.titre)}" maxlength="100"></label>
+        <label class="champ">Établissement<input type="text" id="r_etab" value="${esc(c.etab)}" maxlength="100" placeholder="Lycée Urbain Vitry"></label>
+        <label class="champ">Année scolaire<input type="text" id="r_annee" value="${esc(c.annee)}" maxlength="20"></label></div>
+      <label style="display:flex;gap:10px;align-items:center;margin:6px 0 14px"><input type="checkbox" id="r_adj" ${c.adjDiff ? 'checked' : ''}> Les deux adjoints doivent aussi venir de deux groupes différents</label>
+      <button class="bouton" type="submit">Enregistrer</button></form></div>
+    <div class="carte"><h2 style="color:var(--rouge)">Zone sensible</h2>
+      <p>Repartir de zéro après des essais, ou pour une nouvelle élection. Les classes et les codes sont conservés.</p>
+      <details class="plie"><summary>Effacer les votes</summary><p class="aide">Supprime tous les bulletins et les émargements ; garde les candidatures et le calendrier. Tour 1 de nouveau.</p>
+        <div class="rangee"><input type="text" id="conf1" placeholder="Tapez EFFACER" style="max-width:200px"><button class="bouton danger" data-act="reinit" data-q="votes">Effacer les votes</button></div></details>
+      <details class="plie"><summary>Tout effacer (candidatures, votes, calendrier)</summary><p class="aide">Nouvelle élection avec les mêmes classes.</p>
+        <div class="rangee"><input type="text" id="conf2" placeholder="Tapez EFFACER" style="max-width:200px"><button class="bouton danger" data-act="reinit" data-q="tout">Tout effacer</button></div></details></div>`;
+}
+
+/* ----- candidatures ----- */
+function profCand() {
+  const d = S.prof.d, modif = ['preparation', 'candidatures', 'attente'].indexOf(d.etat) >= 0;
+  if (!d.classes.length) return '<div class="carte"><p>Saisissez d’abord les classes.</p></div>';
+  return d.classes.map(c => {
+    const liste = c.cand.map(x => ({ x, e: c.eleves.find(e => e.id === x.id) })).sort((a, b) => a.e.nom.localeCompare(b.e.nom, 'fr'));
+    return `<div class="carte"><h2>${esc(c.nom)} <span class="badge">${liste.length} candidat(s)</span></h2>
+      ${manqueDelegues(c.groupes, liste.map(({ x, e }) => ({ groupe: c.groupes[e.g], roles: x.roles })))}
+      ${liste.length ? '<div class="tableau"><table><thead><tr><th>Élève</th><th>Groupe</th><th>Rôles</th><th>Message</th><th></th></tr></thead><tbody>' + liste.map(({ x, e }) =>
+        `<tr><td><b>${esc(e.nom)}</b></td><td>${esc(c.groupes[e.g])}</td><td>${rolesBadges(x.roles)}</td><td>${esc(x.texte)}</td><td>${modif ? '<button class="bouton sec petit" data-act="candRetirer" data-cid="' + c.cid + '" data-id="' + e.id + '">Retirer</button>' : ''}</td></tr>`).join('') + '</tbody></table></div>' : '<p class="aide">Aucun candidat pour l’instant.</p>'}
+      ${modif ? `<details class="plie"><summary>Ajouter / modifier un candidat à la main</summary>
+        <div class="grille deux" data-cid="${c.cid}"><label class="champ">Élève<select data-f="el">${c.groupes.map((g, gi) => '<optgroup label="' + esc(g) + '">' + c.eleves.filter(e => e.g === gi).map(e => '<option value="' + e.id + '">' + esc(e.nom) + '</option>').join('') + '</optgroup>').join('')}</select></label>
+          <div><span class="aide">Rôles</span><br><label><input type="checkbox" data-f="D" checked> Délégué</label> &nbsp; <label><input type="checkbox" data-f="A"> Adjoint</label></div></div>
+        <label class="champ">Message (facultatif)<textarea data-f="tx" maxlength="300" style="min-height:60px"></textarea></label>
+        <button class="bouton sec" data-act="candAjouter" data-cid="${c.cid}">Enregistrer ce candidat</button></details>` : ''}</div>`;
+  }).join('');
+}
+
+/* ----- participation ----- */
+function profSuivi() {
+  const P = S.prof, d = P.d; if (!d.classes.length) return '<div class="carte"><p>Saisissez d’abord les classes.</p></div>';
+  const tour = P.tourSuivi || d.config.tour;
+  const tours = d.config.tours.map(x => x.n);
+  let tot = 0, vot = 0;
+  const cartes = d.classes.map(c => {
+    const em = c.eleves.map(e => ({ e, v: e.votes.indexOf(tour) >= 0 }));
+    const tr = d.config.tours[tour - 1];
+    const joue = tour === d.config.tour ? c.scrutin : (em.some(x => x.v));
+    if (!joue) return `<div class="carte"><h2>${esc(c.nom)}</h2><p class="aide">Pas de scrutin dans cette classe à ce tour.</p></div>`;
+    const nv = em.filter(x => x.v).length; tot += em.length; vot += nv;
+    const parG = c.groupes.map((g, gi) => { const l = em.filter(x => x.e.g === gi), n = l.filter(x => x.v).length; return `<tr><td>${esc(g)}</td><td class="n">${n} / ${l.length}</td><td style="width:40%"><div class="barre vert"><i style="width:${l.length ? n / l.length * 100 : 0}%"></i></div></td><td class="n">${l.length ? pct(n / l.length) : '—'}</td></tr>`; }).join('');
+    const trie = l => l.sort((a, b) => a.e.nom.localeCompare(b.e.nom, 'fr'));
+    return `<div class="carte"><h2>${esc(c.nom)} <span class="badge ${nv === em.length ? 'vert' : ''}">${nv} / ${em.length} · ${pct(nv / em.length)}</span></h2>
+      <div class="barre vert" style="margin-bottom:12px"><i style="width:${nv / em.length * 100}%"></i></div>
+      <div class="tableau"><table><tbody>${parG}</tbody></table></div>
+      <details class="plie" open><summary>Liste nominative (${nv} ont voté · ${em.length - nv} pas encore)</summary>
+        <h3 style="margin-top:10px">Ont voté</h3><div>${trie(em.filter(x => x.v)).map(x => '<span class="puce-eleve a-vote">' + esc(x.e.nom) + '</span>').join('') || '<span class="aide">personne</span>'}</div>
+        <h3 style="margin-top:10px">N’ont pas encore voté</h3><div>${trie(em.filter(x => !x.v)).map(x => '<span class="puce-eleve">' + esc(x.e.nom) + '</span>').join('') || '<span class="aide">tout le monde a voté 🎉</span>'}</div></details></div>`;
+  }).join('');
+  return `<div class="carte"><div class="rangee" style="justify-content:space-between"><h2 style="margin:0">Participation</h2>
+      <div class="rangee noprint">${tours.length > 1 ? '<label>Tour <select data-act="tourSuivi">' + tours.map(n => '<option' + (n === tour ? ' selected' : '') + '>' + n + '</option>').join('') + '</select></label>' : ''}
+      <button class="bouton sec petit" data-act="rafraichir">↻ Actualiser</button><button class="bouton sec petit" data-act="csvSuivi">Exporter (CSV)</button><button class="bouton sec petit" data-act="imprimer">Imprimer</button></div></div>
+    <p class="aide">Seule la participation est visible. Le contenu des bulletins n’est lié à aucun nom.</p>
+    <div class="statistiques"><div><span class="chiffre">${vot}</span><small>ont voté</small></div><div><span class="chiffre">${tot}</span><small>inscrits</small></div><div><span class="chiffre">${tot ? pct(vot / tot) : '—'}</span><small>de participation</small></div></div></div>${cartes}`;
+}
+
+/* ----- résultats ----- */
+function profRes() {
+  const P = S.prof;
+  if (!P.res) return '<div class="carte"><p>Chargement…</p></div>';
+  if (P.res.erreur) return `<div class="carte"><h2>Résultats</h2><p>${esc(P.res.erreur)}</p><p class="aide">Ils apparaîtront ici après la clôture du scrutin (bouton « Clore le scrutin » ou date de fin atteinte).</p></div>`;
+  const R = P.res, sel = P.resTour || 'final';
+  const barre = ['final'].concat(R.tours.map(t => t.n));
+  let corps = '';
+  if (sel === 'final') corps = resSynthese(R);
+  else corps = R.tours.find(t => t.n === sel).classes.map(c => resClasse(c)).join('');
+  const dernier = R.tours[R.tours.length - 1].n, peutTour = R.clos && R.tourEnCours === dernier && dernier < 4;
+  return `<div class="carte noprint"><div class="rangee" style="justify-content:space-between"><div class="rangee">${barre.map(b => '<button class="bouton ' + (b === sel ? '' : 'sec') + ' petit" data-act="resTour" data-t="' + b + '">' + (b === 'final' ? 'Synthèse' : 'Tour ' + b) + '</button>').join('')}</div>
+    <div class="rangee"><button class="bouton sec petit" data-act="csvRes">Exporter (CSV)</button><button class="bouton sec petit" data-act="imprimer">Imprimer</button>${peutTour ? '<button class="bouton petit" data-act="ouvrirTour">Organiser un tour de plus…</button>' : ''}</div></div></div>${corps}
+    <dialog id="dlgTour"></dialog>`;
+}
+
+function nomElu(x) { return x ? esc(x.nom) + ' <span class="aide">(' + esc(x.groupe) + ')</span>' : '—'; }
+function resSynthese(R) {
+  const ligne = f => {
+    const cell = k => {
+      const o = f[k]; if (!o) return '<span class="aide">pas de candidat</span>';
+      let h = o.elus.map(x => '<div>' + nomElu(x) + '</div>').join('');
+      if (o.egalite) h += '<div class="badge rouge">égalité : ' + o.egalite.candidats.map(x => esc(x.nom)).join(' / ') + '</div>';
+      else if (o.elus.length < 2) h += '<div class="badge or">siège vacant</div>';
+      if (o.provisoire) h += '<div class="badge or">provisoire</div>';
+      return h + (o.tour > 1 ? '<div class="aide">tour ' + o.tour + '</div>' : '');
+    };
+    return '<tr><td><b>' + esc(f.nom) + '</b></td><td>' + cell('D') + '</td><td>' + cell('A') + '</td></tr>';
+  };
+  const alertes = R.final.some(f => (f.D && f.D.egalite) || (f.A && f.A.egalite));
+  return `<div class="carte"><h2>Élus de chaque classe</h2>
+    ${alertes ? '<div class="note"><b>Égalité(s) à départager.</b> Bouton « Organiser un tour de plus… » : seuls les candidats retenus se représentent.</div>' : ''}
+    <div class="tableau"><table><thead><tr><th>Classe</th><th>Délégués</th><th>Adjoints</th></tr></thead><tbody>${R.final.map(ligne).join('')}</tbody></table></div>
+    <p class="aide">Les deux délégués sont les mieux placés, de deux groupes différents${R.adjDiff ? ' ; les adjoints suivent la même règle' : ''}. Un candidat élu délégué ne peut pas être adjoint.</p></div>`;
+}
+function resClasse(c) {
+  if (!c.scrutin) return `<div class="carte"><h2>${esc(c.nom)}</h2><p class="aide">Pas de scrutin dans cette classe à ce tour.</p></div>`;
+  const sec = (t, S_) => {
+    if (!S_) return '';
+    return `<h3 style="margin-top:14px">${t}${S_.provisoire ? ' <span class="badge or">provisoire</span>' : ''}</h3><div class="tableau"><table><thead><tr><th>Candidat</th><th>Groupe</th><th class="n">Voix</th><th>% des votants</th><th></th></tr></thead><tbody>${S_.candidats.map(x =>
+      `<tr class="${x.elu ? 'elu' : ''}"><td>${esc(x.nom)}</td><td>${esc(x.groupe)}</td><td class="n"><b>${x.v}</b></td><td style="width:26%"><div class="barre ${x.elu ? 'vert' : ''}"><i style="width:${x.pct * 100}%"></i></div></td><td>${x.elu ? '<span class="badge vert">Élu(e)</span>' : x.deja ? '<span class="badge">déjà délégué(e)</span>' : ''}</td></tr>`).join('')}
+      <tr><td colspan="2"><i>Blancs (aucun nom)</i></td><td class="n">${S_.blancs}</td><td colspan="2"></td></tr></tbody></table></div>
+      ${S_.egalite ? '<div class="note"><b>Égalité</b> pour ' + S_.egalite.places + ' siège(s) : ' + S_.egalite.candidats.map(x => esc(x.nom) + ' (' + x.v + ')').join(', ') + '.</div>' : ''}`;
+  };
+  return `<div class="carte"><h2>${esc(c.nom)} <span class="badge">${c.bulletins} bulletin(s) / ${c.inscrits} inscrits · ${c.inscrits ? pct(c.bulletins / c.inscrits) : ''}</span></h2>
+    ${c.coherent ? '' : '<div class="note">⚠ Écart entre le nombre de bulletins (' + c.bulletins + ') et d’émargements (' + c.emarges + ') : vérifiez avant de proclamer.</div>'}
+    ${sec('Délégués', c.D)}${sec('Adjoints', c.A)}</div>`;
+}
+
+/* =====================================================================
+   ACTIONS
+   ===================================================================== */
+async function charger() {
+  try { S.info = await appel('info'); } catch (e) { S.info = null; flash('err', e.message); }
+  rendre();
+}
+const ACT = {
+  accueil() { S.vue = 'accueil'; charger(); },
+  profEntree() { S.vue = 'profEntree'; rendre(); },
+  async quitter() { S.eleve = null; S.code = ''; S.prof = null; S.ordre = null; S.bull = { D: [], A: [], etape: 'choix', fini: false }; S.vue = 'accueil'; await charger(); },
+  async actualiser() { await connecter(S.code, true); },
+  async retirerCand() {
+    if (!confirm('Retirer ta candidature ?')) return;
+    try { S.eleve = await appel('retirer', { code: S.code }); flash('ok', 'Ta candidature est retirée.'); } catch (e) { flash('err', e.message); }
+    rendre();
+  },
+  verifier() { S.bull.etape = 'verif'; rendre(); },
+  modifierBull() { S.bull.etape = 'choix'; rendre(); },
+  async deposer() {
+    try {
+      await appel('voter', { code: S.code, delegues: S.bull.D, adjoints: S.bull.A });
+      S.bull = { D: [], A: [], etape: 'choix', fini: true };
+      S.eleve.aVote = true; S.eleve.sections = null;
+    } catch (e) { flash('err', e.message); S.bull.etape = 'choix'; }
+    rendre();
+  },
+  /* --- enseignant --- */
+  async onglet(b) {
+    S.prof.onglet = b.dataset.o;
+    if (b.dataset.o === 'res') { S.prof.res = null; rendre(); try { S.prof.res = await appel('a_resultats', { mdp: S.prof.mdp }); } catch (e) { S.prof.res = { erreur: e.message }; } }
+    else if (['bord', 'suivi', 'cand', 'cal'].indexOf(b.dataset.o) >= 0) { try { await profCharger(); } catch (e) { flash('err', e.message); } }
+    rendre();
+  },
+  async rafraichir() { try { await profCharger(); } catch (e) { flash('err', e.message); } rendre(); },
+  async forcer(b) {
+    const e = b.dataset.e || null;
+    if (e === 'clos' && !confirm('Clore le scrutin ? Plus personne ne pourra voter et les résultats deviendront visibles.')) return;
+    if (e === 'vote' && !confirm('Lancer le vote maintenant ? Les candidatures ne seront plus modifiables.')) return;
+    try { await appel('a_forcer', { mdp: S.prof.mdp, etat: e }); await profCharger(); } catch (er) { flash('err', er.message); }
+    rendre();
+  },
+  ajoutClasse() { S.prof.ed.push({ cid: null, nom: '', groupes: [{ nom: 'Groupe 1', texte: '' }, { nom: 'Groupe 2', texte: '' }] }); rendre(); },
+  suppClasse(b) { const c = S.prof.ed[+b.dataset.ci]; if (confirm('Supprimer la classe « ' + (c.nom || 'sans nom') + ' » de la liste ? (Appliqué à l’enregistrement.)')) { S.prof.ed.splice(+b.dataset.ci, 1); rendre(); } },
+  async enregClasses() {
+    try {
+      await appel('a_classes', { mdp: S.prof.mdp, classes: S.prof.ed.map(c => ({ cid: c.cid, nom: c.nom, groupes: c.groupes.map(g => ({ nom: g.nom, eleves: g.texte.split('\n') })) })) });
+      S.prof.ed = null; await profCharger(); flash('ok', 'Classes enregistrées. Les codes personnels sont prêts.');
+    } catch (e) { flash('err', e.message); }
+    rendre();
+  },
+  importer() {
+    const lignes = ($('#importTab').value || '').split('\n').map(l => l.trim()).filter(Boolean);
+    const ed = S.prof.ed; let n = 0;
+    for (const l of lignes) {
+      const p = l.split(/\t|;/).map(x => x.trim());
+      if (p.length < 2) { flash('err', 'Ligne illisible : « ' + l + ' »'); rendre(); return; }
+      const cn = p[0], nom = p.length >= 3 ? p.slice(2).join(' ') : p[1], gtok = p.length >= 3 ? p[1] : '1';
+      let c = ed.find(x => x.nom.toLowerCase() === cn.toLowerCase());
+      if (!c) { c = { cid: null, nom: cn, groupes: [{ nom: 'Groupe 1', texte: '' }] }; ed.push(c); }
+      let gi = /^\d+$/.test(gtok) ? parseInt(gtok, 10) - 1 : c.groupes.findIndex(g => g.nom.toLowerCase() === gtok.toLowerCase());
+      if (gi < 0) { c.groupes.push({ nom: gtok, texte: '' }); gi = c.groupes.length - 1; }
+      while (c.groupes.length <= gi && c.groupes.length < 8) c.groupes.push({ nom: 'Groupe ' + (c.groupes.length + 1), texte: '' });
+      const g = c.groupes[Math.min(gi, c.groupes.length - 1)]; g.texte += (g.texte && !g.texte.endsWith('\n') ? '\n' : '') + nom; n++;
+    }
+    flash('info', n + ' élève(s) ajouté(s) à la liste. Pensez à enregistrer.'); rendre();
+  },
+  async candRetirer(b) { try { await appel('a_candidat', { mdp: S.prof.mdp, op: 'retirer', cid: +b.dataset.cid, eleveId: b.dataset.id }); await profCharger(); } catch (e) { flash('err', e.message); } rendre(); },
+  async candAjouter(b) {
+    const z = b.closest('details'), cid = +b.dataset.cid, g = s => z.querySelector('[data-f="' + s + '"]');
+    const roles = (g('D').checked ? 'D' : '') + (g('A').checked ? 'A' : '');
+    try { await appel('a_candidat', { mdp: S.prof.mdp, op: 'ajouter', cid, eleveId: g('el').value, roles, texte: g('tx').value }); await profCharger(); flash('ok', 'Candidat enregistré.'); } catch (e) { flash('err', e.message); }
+    rendre();
+  },
+  tourSuivi(el) { S.prof.tourSuivi = +el.value; rendre(); },
+  resTour(b) { S.prof.resTour = b.dataset.t === 'final' ? 'final' : +b.dataset.t; rendre(); },
+  imprimer() { window.print(); },
+  async reinit(b) {
+    const q = b.dataset.q, v = $(q === 'votes' ? '#conf1' : '#conf2').value;
+    try { await appel('a_reinit', { mdp: S.prof.mdp, quoi: q, confirmation: v.trim() }); S.prof.ed = null; S.prof.res = null; await profCharger(); flash('ok', 'C’est fait.'); } catch (e) { flash('err', e.message); }
+    rendre();
+  },
+  imprCodes() {
+    const d = S.prof.d, base = location.href.split('#')[0].split('?')[0];
+    $('#impr').innerHTML = d.classes.map(c => '<h2>' + esc(c.nom) + '</h2>' + c.eleves.map(e => '<div class="carte-code"><b>' + esc(d.config.titre) + '</b><br>' + esc(e.nom) + '<br><span>' + esc(c.nom) + ' · ' + esc(c.groupes[e.g]) + '</span><div class="code">' + e.code.slice(0, 4) + '-' + e.code.slice(4) + '</div><small>Va sur ' + esc(base) + '<br>Ce code est personnel : ne le montre à personne.</small></div>').join('')).join('');
+    document.body.dataset.impr = 'codes'; window.print();
+  },
+  csvCodes() { const d = S.prof.d; telecharger('codes-eleves.csv', [['Classe', 'Groupe', 'Nom', 'Code']].concat(d.classes.flatMap(c => c.eleves.map(e => [c.nom, c.groupes[e.g], e.nom, e.code.slice(0, 4) + '-' + e.code.slice(4)])))); },
+  csvSuivi() {
+    const d = S.prof.d, t = S.prof.tourSuivi || d.config.tour;
+    telecharger('participation-tour' + t + '.csv', [['Classe', 'Groupe', 'Nom', 'A voté (tour ' + t + ')']].concat(d.classes.flatMap(c => c.eleves.map(e => [c.nom, c.groupes[e.g], e.nom, e.votes.indexOf(t) >= 0 ? 'oui' : 'non']))));
+  },
+  csvRes() {
+    const R = S.prof.res, L = [['Tour', 'Classe', 'Rubrique', 'Candidat', 'Groupe', 'Voix', '% des votants', 'Élu(e)']];
+    R.tours.forEach(t => t.classes.forEach(c => ['D', 'A'].forEach(k => {
+      if (!c[k]) return;
+      const rub = k === 'D' ? 'Délégués' : 'Adjoints';
+      c[k].candidats.forEach(x => L.push([t.n, c.nom, rub, x.nom, x.groupe, x.v, Math.round(x.pct * 100), x.elu ? 'oui' : '']));
+      L.push([t.n, c.nom, rub, '(blancs)', '', c[k].blancs, '', '']);
+    })));
+    telecharger('resultats.csv', L);
+  },
+  ouvrirTour() {
+    const R = S.prof.res, T = R.tours[R.tours.length - 1], dlg = $('#dlgTour');
+    const bloc = (c, k, t) => {
+      const S_ = c[k]; if (!S_) return '';
+      const pre = new Set(S_.egalite ? S_.egalite.candidats.map(x => x.id).concat(S_.elus) : []);
+      return '<h4 style="margin:.6em 0 .2em">' + t + '</h4>' + S_.candidats.filter(x => !x.deja).map(x => '<label style="display:block"><input type="checkbox" data-k="' + k + '" value="' + x.id + '" ' + (pre.has(x.id) ? 'checked' : '') + '> ' + esc(x.nom) + ' <span class="aide">' + esc(x.groupe) + ' · ' + x.v + ' voix</span></label>').join('');
+    };
+    dlg.innerHTML = `<h2>Organiser un tour de plus</h2><p class="aide">Cochez les candidats qui se représentent. Les rubriques où personne n’est coché ne sont pas revotées (le résultat précédent est conservé). Tout le monde revote, avec les mêmes règles.</p>
+      <div style="max-height:46vh;overflow:auto">${T.classes.filter(c => c.scrutin).map(c => '<div class="ed-classe"><b>' + esc(c.nom) + '</b>' + bloc(c, 'D', 'Délégués') + bloc(c, 'A', 'Adjoints') + '</div>').join('')}</div>
+      <label class="champ">Fin du vote (facultatif — sinon, vous clorez à la main)<input type="datetime-local" id="tourFin"></label>
+      <div class="rangee"><button class="bouton" id="tourOk">Lancer le tour ${R.tourEnCours + 1}</button><button class="bouton sec" id="tourNon">Annuler</button></div>`;
+    dlg.showModal();
+    $('#tourNon').onclick = () => dlg.close();
+    $('#tourOk').onclick = async () => {
+      const ids = k => [...dlg.querySelectorAll('input[data-k="' + k + '"]:checked')].map(i => i.value);
+      try { await appel('a_tour', { mdp: S.prof.mdp, D: ids('D'), A: ids('A'), finVote: depuisLocal($('#tourFin').value) }); dlg.close(); S.prof.res = null; S.prof.tourSuivi = null; S.prof.resTour = 'final'; S.prof.onglet = 'bord'; await profCharger(); flash('ok', 'Tour supplémentaire lancé : le vote est rouvert.'); }
+      catch (e) { dlg.close(); flash('err', e.message); }
+      rendre();
+    };
+  },
+  /* --- démonstration --- */
+  async demoCharger() {
+    const pre = 'Léa Hugo Inès Lucas Chloé Nathan Manon Louis Camille Enzo Jade Théo Sarah Maël Emma Noah Lina Tom Zoé Yanis Alice Ethan Clara Rayan Eva Axel Nora Mathis Lola Adam'.split(' ');
+    const nom = 'MARTIN BERNARD DUBOIS THOMAS ROBERT RICHARD PETIT DURAND LEROY MOREAU SIMON LAURENT LEFEBVRE MICHEL GARCIA DAVID BERTRAND ROUX VINCENT FOURNIER MOREL GIRARD ANDRÉ MERCIER DUPONT LAMBERT BONNET FRANÇOIS MARTINEZ LEGRAND'.split(' ');
+    const pris = new Set(), gen = n => { const l = []; while (l.length < n) { const x = nom[Math.floor(Math.random() * nom.length)] + ' ' + pre[Math.floor(Math.random() * pre.length)]; if (!pris.has(x)) { pris.add(x); l.push(x); } } return l.join('\n'); };
+    S.prof.ed = [{ cid: null, nom: '2EMNB1', groupes: [{ nom: 'Groupe 1', texte: gen(12) }, { nom: 'Groupe 2', texte: gen(12) }] }, { cid: null, nom: '1AA', groupes: [{ nom: 'Groupe 1', texte: gen(9) }, { nom: 'Groupe 2', texte: gen(9) }, { nom: 'Groupe 3', texte: gen(9) }] }];
+    try {
+      await appel('a_classes', { mdp: 'demo', classes: S.prof.ed.map(c => ({ cid: c.cid, nom: c.nom, groupes: c.groupes.map(g => ({ nom: g.nom, eleves: g.texte.split('\n') })) })) });
+      S.prof.ed = null; await profCharger();
+      for (const c of S.prof.d.classes) for (const e of melange(c.eleves).slice(0, 6)) await appel('a_candidat', { mdp: 'demo', op: 'ajouter', cid: c.cid, eleveId: e.id, roles: ['D', 'A', 'DA'][Math.floor(Math.random() * 3)], texte: 'Je veux que chacun soit entendu dans la classe.' });
+      await profCharger(); flash('ok', 'Exemple créé : 2 classes, 6 candidats chacune. Lancez le vote depuis le tableau de bord, puis simulez des votes.');
+    } catch (er) { flash('err', er.message); }
+    rendre();
+  },
+  async demoVotes() {
+    try {
+      if (S.prof.d.etat !== 'vote') throw new Error('Lancez d’abord le vote depuis le tableau de bord.');
+      let n = 0;
+      for (const c of S.prof.d.classes) for (const e of c.eleves) {
+        if (e.votes.indexOf(S.prof.d.config.tour) >= 0 || Math.random() > .75) continue;
+        const v = await appel('connexion', { code: e.code }); if (!v.sections) continue;
+        const pick = (l, diff) => { if (!l || !l.length) return []; const m = melange(l), out = []; const k = Math.floor(Math.random() * 3); for (const x of m) { if (out.length >= k) break; if (diff && out.length && out[0].g === x.g) continue; out.push(x); } return out.map(x => x.id); };
+        await appel('voter', { code: e.code, delegues: pick(v.sections.D, true), adjoints: pick(v.sections.A, v.adjDiff) }); n++;
+      }
+      await profCharger(); flash('ok', n + ' vote(s) simulé(s).');
+    } catch (er) { flash('err', er.message); }
+    rendre();
+  }
+};
+
+async function connecter(code, silencieux) {
+  try {
+    S.eleve = await appel('connexion', { code }); S.code = code;
+    if (S.eleve.sections) S.ordre = { D: melange((S.eleve.sections.D || []).map(x => x.id)), A: melange((S.eleve.sections.A || []).map(x => x.id)) };
+    S.vue = 'eleve'; if (!silencieux) S.bull = { D: [], A: [], etape: 'choix', fini: false };
+    if (silencieux) flash('info', 'Mis à jour.');
+  } catch (e) { flash('err', e.message); S.vue = S.eleve ? 'eleve' : 'accueil'; }
+  rendre();
+}
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-act]'); if (!b || b.tagName === 'SELECT') return;
+  if (b.tagName === 'A') e.preventDefault();
+  const f = ACT[b.dataset.act]; if (f) f(b, e);
+});
+document.addEventListener('change', e => {
+  const el = e.target;
+  if (el.dataset.b) {                       // case du bulletin
+    const k = el.dataset.b, l = S.bull[k], i = l.indexOf(el.value);
+    if (el.checked && i < 0) l.push(el.value); else if (!el.checked && i >= 0) l.splice(i, 1);
+    majBulletin();
+  } else if (el.dataset.act === 'tourSuivi') ACT.tourSuivi(el);
+  else if (el.dataset.m === 'nbg') {        // nombre de groupes
+    const c = S.prof.ed[+el.closest('[data-ci]').dataset.ci], n = +el.value;
+    while (c.groupes.length < n) c.groupes.push({ nom: 'Groupe ' + (c.groupes.length + 1), texte: '' });
+    if (c.groupes.length > n) {
+      const perdus = c.groupes.slice(n).reduce((s, g) => s + g.texte.split('\n').filter(x => x.trim()).length, 0);
+      if (perdus && !confirm(perdus + ' élève(s) des derniers groupes seront retirés de la liste. Continuer ?')) { el.value = c.groupes.length; return; }
+      c.groupes.length = n;
+    }
+    rendre();
+  }
+});
+document.addEventListener('input', e => {
+  const el = e.target, m = el.dataset.m; if (!m || m === 'nbg') return;
+  const c = S.prof.ed[+el.closest('[data-ci]').dataset.ci];
+  if (m === 'nom') c.nom = el.value;
+  else if (m === 'gnom') c.groupes[+el.dataset.gi].nom = el.value;
+  else if (m === 'gtexte') { c.groupes[+el.dataset.gi].texte = el.value; el.parentElement.querySelector('[data-nb]').textContent = el.value.split('\n').filter(x => x.trim()).length + ' élève(s)'; }
+});
+document.addEventListener('submit', async e => {
+  e.preventDefault();
+  const f = e.target.dataset.form;
+  if (f === 'connexion') { await connecter($('#code').value); }
+  else if (f === 'candidater') {
+    const roles = [...document.querySelectorAll('input[name=roles]:checked')].map(i => i.value).join('');
+    try { S.eleve = await appel('candidater', { code: S.code, roles, texte: $('#texte').value }); flash('ok', 'Ta candidature est enregistrée. Tu peux la modifier ou la retirer jusqu’à la fin des candidatures.'); } catch (er) { flash('err', er.message); }
+    rendre();
+  } else if (f === 'profConnexion') {
+    S.prof = { mdp: $('#mdp').value, onglet: 'bord', d: null, ed: null, res: null };
+    try { await profCharger(); S.vue = 'prof'; if (!S.prof.d.classes.length) S.prof.onglet = 'classes'; } catch (er) { S.prof = null; flash('err', er.message); }
+    rendre();
+  } else if (f === 'reglages') {
+    try {
+      await appel('a_reglages', { mdp: S.prof.mdp, titre: $('#r_titre').value, etab: $('#r_etab').value, annee: $('#r_annee').value, adjDiff: $('#r_adj').checked,
+        dates: { debutCand: depuisLocal($('#d_debutCand').value), finCand: depuisLocal($('#d_finCand').value), debutVote: depuisLocal($('#d_debutVote').value), finVote: depuisLocal($('#d_finVote').value) } });
+      S.info = await appel('info'); await profCharger(); flash('ok', 'Réglages enregistrés.');
+    } catch (er) { flash('err', er.message); }
+    rendre();
+  }
+});
+window.addEventListener('afterprint', () => { delete document.body.dataset.impr; $('#impr').innerHTML = ''; });
+setInterval(async () => {                    // le suivi se met à jour tout seul pendant le vote
+  if (S.vue === 'prof' && S.prof && S.prof.onglet === 'suivi' && S.prof.d.etat === 'vote' && !document.hidden && !document.activeElement.matches('select,input')) {
+    try { await profCharger(); rendre(); } catch (e) {}
+  }
+}, 30000);
+
+charger();
+</script>
+</body>
+</html>
